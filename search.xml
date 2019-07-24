@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+    
+    <entry>
+      <title><![CDATA[在Windows下配置多个Git提交账户]]></title>
+      <url>/my-blog/2019/07/24/%E5%9C%A8Windows%E4%B8%8B%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AAGit%E6%8F%90%E4%BA%A4%E8%B4%A6%E6%88%B7/</url>
+      <content type="html"><![CDATA[<p>本文记录在Windows下配置两个github账号的过程.</p>
+<a id="more"></a>
+<hr>
+<ol>
+<li>生成并部署SSH Key</li>
+</ol>
+<p>安装好Git客户端后，打开git bash，输入以下命令生成user1的SSH Key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;user1@email.com&quot;</span><br></pre></td></tr></table></figure>
+
+<p>在当前用户的.ssh目录下(C:\Users\lenovo\.ssh)会生成id_rsa私钥文件和id_rsa.pub公钥文件，将id_rsa.pub中的内容添加至user1的github中。然后在git bash中输入以下命令测试该用户的SSH密钥是否生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+
+<p>==注：若提示‘ssh: connect to host github.com port 22: Connection timed out’，证明远端仓库拒绝匿名认证。若连接成功则提示‘Hi user1! You’ve successfully authenticated, but GitHub does not provide shell access.’==</p>
+<p>接着生成user2的密钥，注意不能再使用默认的文件名id_rsa，否则会覆盖之前密钥文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa2 -C &quot;user2@email.com&quot;</span><br></pre></td></tr></table></figure>
+
+<p>再将该用户的公钥文件添加至github中。测试user2的ssh连接时需要指定密钥文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com -i ~/.ssh/id_rsa2</span><br></pre></td></tr></table></figure>
+
+<hr>
+<ol start="2">
+<li>配置config文件</li>
+</ol>
+<p>在.ssh目录下创建一个config文本文件，每个账号配置一个Host节点。主要配置项说明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Host            别名</span><br><span class="line">HostName        主机名</span><br><span class="line">Port            端口</span><br><span class="line">User            用户名</span><br><span class="line">IdentityFile    密钥文件的路径</span><br><span class="line">IdentitiesOnly  只接受SSH Key 登录</span><br><span class="line">PreferredAuthentications publickey  强制使用Public Key验证</span><br><span class="line"></span><br><span class="line"># 配置user1 </span><br><span class="line">Host u1.github.com</span><br><span class="line">HostName github.com</span><br><span class="line">IdentityFile ~/.ssh/id_rsa</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">User user1</span><br><span class="line"></span><br><span class="line"># 配置user2</span><br><span class="line">Host u2.github.com</span><br><span class="line">HostName github.com</span><br><span class="line">IdentityFile C:\\Users\\lenovo\\.ssh\\id_rsa2</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">User user2</span><br></pre></td></tr></table></figure>
+
+<p>再通过终端测试SSH Key是否生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@u1.github.com</span><br><span class="line">ssh -T git@u2.github.com</span><br></pre></td></tr></table></figure>
+
+<hr>
+<ol start="3">
+<li>配置用户名及邮箱</li>
+</ol>
+<p>如果之前配置过全局的用户名和邮箱，可以按需选择是否取消全局配置。若取消，需要在各仓库下单独配置相应的用户名和邮箱；反之仅需在需要单独用户的仓库下进行配置，未配置的仓库按照全局配置获取。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 全局配置（任意位置执行）</span><br><span class="line">$ git config --global user.name &quot;github&apos;s Name&quot;</span><br><span class="line"></span><br><span class="line">$ git config --global user.email &quot;github@xx.com&quot;</span><br><span class="line"></span><br><span class="line">$ git config --list</span><br><span class="line"></span><br><span class="line"># 取消全局配置</span><br><span class="line">git config --global --unset user.name</span><br><span class="line"></span><br><span class="line">git config --global --unset user.email</span><br><span class="line"></span><br><span class="line"># 局部配置（在下载的项目根目录执行）</span><br><span class="line">$ git config user.name &quot;gitlab&apos;s Name&quot;</span><br><span class="line"></span><br><span class="line">$ git config user.email &quot;gitlab@xx.com&quot;</span><br></pre></td></tr></table></figure>
+
+<p>==注：配置加载的优先策略为先执行局部配置读取，再进行全局配置读取==</p>
+<hr>
+<ol start="4">
+<li>配置SSH认证私钥(添加SSH到SSH-Agent)</li>
+</ol>
+<p>通过SSH指令配置：<a href="https://www.jianshu.com/p/6162b94110fc" target="_blank" rel="noopener">参考</a></p>
+<p>通过puttygen工具（TortoiseGit）生成*.ppk文件,以支持TortoiseGit认证私钥</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Git </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Git </tag>
+            
+        </tags>
+        
+    </entry>
+    
+  
+  
+</search>

@@ -257,10 +257,12 @@
 <p>==注：配置加载的优先策略为先执行局部配置读取，再进行全局配置读取==</p>
 <hr>
 <ol start="4">
-<li>配置SSH认证私钥(添加SSH到SSH-Agent)</li>
+<li>配置SSH认证私钥<br>通过puttygen工具（TortoiseGit）生成*.ppk文件,以支持pageant工具(TortoiseGit)认证私钥</li>
 </ol>
-<p>通过SSH指令配置：<a href="https://www.jianshu.com/p/6162b94110fc" target="_blank" rel="noopener">参考</a></p>
-<p>通过puttygen工具（TortoiseGit）生成*.ppk文件,以支持TortoiseGit认证私钥</p>
+<hr>
+<ol start="5">
+<li>注意事项<br>由于本人安装了TortoiseGit,其默认SSH工具为TortoiseGitPlink.exe，且配置了系统环境变量GIT_SSH指向TortoiseGitPlink.exe。在执行hexo d 指令时，默认该SSH工具进行链接，导致失败。后删除系统环境变量，且配置TortoiseGit的SSH工具为Git下的\usr\bin\ssh.exe，解决提交错误的问题</li>
+</ol>
 
         </div>
         
@@ -268,7 +270,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-07-24T07:34:17.724Z" itemprop="dateUpdated">2019-07-24 15:34:17</time>
+    Last updated: <time datetime="2019-07-24T10:05:37.545Z" itemprop="dateUpdated">2019-07-24 18:05:37</time>
 </span><br>
 
 

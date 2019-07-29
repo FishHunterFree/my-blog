@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     
     
-    <title>在Windows下配置多个Git提交账户 | 鱼缸 | 归纳，总结，提升</title>
+    <title>Git使用技巧 | 鱼缸 | 归纳，总结，提升</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="keywords" content="Git">
@@ -144,7 +144,7 @@
           <i class="icon icon-lg icon-navicon"></i>
         </a>
         <div class="flex-col header-title ellipsis">
-            <span>在Windows下配置多个Git提交账户</span>
+            <span>Git使用技巧</span>
             
         </div>
         
@@ -157,11 +157,11 @@
 <header class="content-header post-header">
     <img src="/my-blog/img/banner.jpg" class="header-bg">
     <div class="container fade-scale">
-        <h1 class="title">在Windows下配置多个Git提交账户</h1>
+        <h1 class="title">Git使用技巧</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-07-24T07:02:06.000Z" itemprop="datePublished" class="page-time">
-  2019-07-24
+                <time datetime="2019-07-29T09:55:29.000Z" itemprop="datePublished" class="page-time">
+  2019-07-29
 </time>
 
 
@@ -190,12 +190,12 @@
 
 
 <div class="container body-wrap">
-    <article id="post-在Windows下配置多个Git提交账户"
+    <article id="post-Git使用技巧"
   class="post-article article-type-post" itemprop="blogPost">
     <div class="post-card">
-        <h1 class="post-card-title">在Windows下配置多个Git提交账户</h1>
+        <h1 class="post-card-title">Git使用技巧</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-07-24 15:02:06" datetime="2019-07-24T07:02:06.000Z"  itemprop="datePublished">2019-07-24</time>
+            <time class="post-time" title="2019-07-29 17:55:29" datetime="2019-07-29T09:55:29.000Z"  itemprop="datePublished">2019-07-29</time>
 
             
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/Git/">Git</a></li></ul>
@@ -203,7 +203,7 @@
 
 
             
-	<span id="/my-blog/2019/07/24/在Windows下配置多个Git提交账户/" class="leancloud_visitors" data-flag-title="在Windows下配置多个Git提交账户" title="在Windows下配置多个Git提交账户">
+	<span id="/my-blog/2019/07/29/Git使用技巧/" class="leancloud_visitors" data-flag-title="Git使用技巧" title="Git使用技巧">
 		
 			<i class="icon icon-eye"></i>
 		
@@ -218,51 +218,10 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             
-            <p>本文记录在Windows下配置两个github账号的过程.</p>
-<a id="more"></a>
-<hr>
-<ol>
-<li>生成并部署SSH Key</li>
-</ol>
-<p>安装好Git客户端后，打开git bash，输入以下命令生成user1的SSH Key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;user1@email.com&quot;</span><br></pre></td></tr></table></figure>
+            <h2 id="Git使用技巧"><a href="#Git使用技巧" class="headerlink" title="Git使用技巧"></a>Git使用技巧</h2><a id="more"></a>
 
-<p>在当前用户的.ssh目录下(C:\Users\lenovo\.ssh)会生成id_rsa私钥文件和id_rsa.pub公钥文件，将id_rsa.pub中的内容添加至user1的github中。然后在git bash中输入以下命令测试该用户的SSH密钥是否生效：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">&gt;1. 创建远程分枝</span><br><span class="line">    创建分支       git branch 分支名</span><br><span class="line">    推送到远程      git push origin 分支名</span><br><span class="line">    </span><br><span class="line">&gt;2. 第一次拉取远程分支（本地没有）</span><br><span class="line">    git fetch origin 远程分枝名:本地分枝名   </span><br><span class="line">    例如: git fetch origin feature/v1.0:feature/v1.0</span><br><span class="line">    </span><br><span class="line">&gt;3. 提交代码</span><br><span class="line">    1.git add .</span><br><span class="line">    2.git commit -m &quot;注释&quot;   </span><br><span class="line">    3.git pull</span><br><span class="line">    是否有冲突</span><br><span class="line">        4.1.有冲突解决后，回到第一步 git add . ,再执行一遍步骤</span><br><span class="line">        4.2.没有冲突，继续第5步</span><br><span class="line">    5.git push</span><br><span class="line">    </span><br><span class="line">&gt;4. 其他命令</span><br><span class="line">     git命令   任何操作都需要以 git 命令为开头</span><br><span class="line">     本地操作：</span><br><span class="line">     git init  初始化一个本地仓库  新建为 master主分支</span><br><span class="line">     git status  查看当前分支状态</span><br><span class="line">     git add  &lt;文件名&gt;   将文件更改添加到分支状态中 相当于文件等待被提交</span><br><span class="line">     git commit -m &lt;&quot;描述信息&quot;&gt;  提交并添加描述信息</span><br><span class="line">     git branch  查看分支   前面带*号的为当前所在分支</span><br><span class="line">     git branch &lt;分支名称&gt;  新建分支</span><br><span class="line">     git checkout &lt;分支名&gt;  切换分支</span><br><span class="line">     git checkout -b &lt;分支名&gt;  新建分支并切换到此分支</span><br><span class="line">     git merge &lt;分支名&gt;   将指定分支名合并到当前分支  一般为切换到主分支使用此命令</span><br><span class="line">     git merge --no-ff -m &quot;提交描述&quot; &lt;分支名&gt;   合并分支并提交</span><br><span class="line">     git branch -d &lt;分支名&gt;  有新建分支，那肯定有删除分支，假如这个分支新建错了，或者a分支的代码已经顺利合并到 master 分支来了，那么a分支没用了，需要删除，这个时候执行 git branch -d a 就可以把a分支删除了</span><br><span class="line">     git branch -D &lt;分支名&gt;  强制删除分支，不管分支是否有未提交合并的代码</span><br><span class="line"></span><br><span class="line">     git tag 查看所有标签</span><br><span class="line">     git tag &lt;标签名&gt; 在当前状态下新建一个标签，可用来当作版本号使用</span><br><span class="line">     git tag -a &lt;标签名称&gt; -m &lt;&quot;标签描述&quot;&gt; &lt;提交id&gt;  在指定的提交状态下新建一个标签</span><br><span class="line">     git show &lt;标签名称&gt;   查看标签的详情</span><br><span class="line">     git tag -d &lt;标签名&gt; 删除标签</span><br><span class="line">     git push origin &lt;标签名&gt;   推送标签到远程仓库</span><br><span class="line">     git push origin --tags  推送所有未推送的标签</span><br><span class="line">     git push origin :refs/tags/&lt;标签名&gt;   删除远程标签，本地要先删除后才可以</span><br><span class="line">     </span><br><span class="line">     </span><br><span class="line">     git checkout &lt;标签名&gt; 切换到标签名指定的状态</span><br><span class="line">     git diff &lt;文件名&gt; 查看文件修改内容</span><br><span class="line">     </span><br><span class="line">     git log      查看提交日志   --pretty=oneline  此参数减少输出信息  穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。</span><br><span class="line">     git reflog   要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。</span><br><span class="line">     git log --graph --pretty=oneline --abbrev-commit   查看分支合并图</span><br><span class="line">     git reset --hard &lt;HEAD^||提交ID&gt; 穿梭到指定提交版本</span><br><span class="line">     HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset --hard commit_id。</span><br><span class="line">     </span><br><span class="line">     git checkout -- &lt;文件名&gt;  将指定的文件恢复到最近一次 commit或add操作时候的状态</span><br><span class="line">     git reset HEAD &lt;文件名&gt;   将指定的文件从暂存区的修改撤销掉（unstage），重新放回工作区</span><br><span class="line">     git rm &lt;文件名&gt;       删除指定的文件</span><br><span class="line">     </span><br><span class="line">     git stash  把当前工作现场“储藏”起来，等以后恢复现场后继续工作</span><br><span class="line">     git stash list 查看暂存状态</span><br><span class="line">     git stash apply 恢复暂存状态</span><br><span class="line">     git stash drop  删除暂存状态</span><br><span class="line">     git stash pop   恢复并删除暂存状态</span><br><span class="line">     git stash apply &lt;stash@&#123;0&#125;&gt;  恢复指定的暂存状态</span><br><span class="line">     </span><br><span class="line">     </span><br><span class="line">     远程仓库操作:</span><br><span class="line">     git clone &lt;远程地址&gt;  从远征仓库拷贝过来代码，相当于建立本地分支</span><br><span class="line">     git pull 将最新的提交从远程仓库抓取下来</span><br><span class="line">     git push  将本地修改后的代码提交到远程仓库</span><br><span class="line">     git push &lt;远程仓库名，默认origin&gt; &lt;本地分支名&gt;  将指定的分支推送到远程分支上</span><br><span class="line">     </span><br><span class="line">     git remote -v 查看远程仓库  -v 为详细信息</span><br><span class="line">     </span><br><span class="line">     git checkout -b &lt;本地支分支名&gt; &lt;远程仓库名，默认origin&gt;/&lt;远程支分支名&gt; 拉取远程主分支下的支分支。。。</span><br><span class="line">     git branch --set-upstream &lt;本地支分支名&gt; &lt;远程仓库名，默认origin&gt;/&lt;远程支分支名&gt;  将本地分支与远程指定的分支关联起来</span><br><span class="line">     </span><br><span class="line">     //以下为先有本地库，再建立远程库操作所用的命令</span><br><span class="line">     git remote add origin &lt;URL地址&gt; 本地库与远征库关联</span><br><span class="line">     git push -u origin master 关联后，使用命令第一次推送master分支的所有内容，   -u参数为推送当前分支所有内容</span><br></pre></td></tr></table></figure>
 
-<p>==注：若提示‘ssh: connect to host github.com port 22: Connection timed out’，证明远端仓库拒绝匿名认证。若连接成功则提示‘Hi user1! You’ve successfully authenticated, but GitHub does not provide shell access.’==</p>
-<p>接着生成user2的密钥，注意不能再使用默认的文件名id_rsa，否则会覆盖之前密钥文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa2 -C &quot;user2@email.com&quot;</span><br></pre></td></tr></table></figure>
-
-<p>再将该用户的公钥文件添加至github中。测试user2的ssh连接时需要指定密钥文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com -i ~/.ssh/id_rsa2</span><br></pre></td></tr></table></figure>
-
-<hr>
-<ol start="2">
-<li>配置config文件</li>
-</ol>
-<p>在.ssh目录下创建一个config文本文件，每个账号配置一个Host节点。主要配置项说明</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Host            别名</span><br><span class="line">HostName        主机名</span><br><span class="line">Port            端口</span><br><span class="line">User            用户名</span><br><span class="line">IdentityFile    密钥文件的路径</span><br><span class="line">IdentitiesOnly  只接受SSH Key 登录</span><br><span class="line">PreferredAuthentications publickey  强制使用Public Key验证</span><br><span class="line"></span><br><span class="line"># 配置user1 </span><br><span class="line">Host u1.github.com</span><br><span class="line">HostName github.com</span><br><span class="line">IdentityFile ~/.ssh/id_rsa</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">User user1</span><br><span class="line"></span><br><span class="line"># 配置user2</span><br><span class="line">Host u2.github.com</span><br><span class="line">HostName github.com</span><br><span class="line">IdentityFile C:\\Users\\lenovo\\.ssh\\id_rsa2</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">User user2</span><br></pre></td></tr></table></figure>
-
-<p>再通过终端测试SSH Key是否生效</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@u1.github.com</span><br><span class="line">ssh -T git@u2.github.com</span><br></pre></td></tr></table></figure>
-
-<hr>
-<ol start="3">
-<li>配置用户名及邮箱</li>
-</ol>
-<p>如果之前配置过全局的用户名和邮箱，可以按需选择是否取消全局配置。若取消，需要在各仓库下单独配置相应的用户名和邮箱；反之仅需在需要单独用户的仓库下进行配置，未配置的仓库按照全局配置获取。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 全局配置（任意位置执行）</span><br><span class="line">$ git config --global user.name &quot;github&apos;s Name&quot;</span><br><span class="line"></span><br><span class="line">$ git config --global user.email &quot;github@xx.com&quot;</span><br><span class="line"></span><br><span class="line">$ git config --list</span><br><span class="line"></span><br><span class="line"># 取消全局配置</span><br><span class="line">git config --global --unset user.name</span><br><span class="line"></span><br><span class="line">git config --global --unset user.email</span><br><span class="line"></span><br><span class="line"># 局部配置（在下载的项目根目录执行）</span><br><span class="line">$ git config user.name &quot;gitlab&apos;s Name&quot;</span><br><span class="line"></span><br><span class="line">$ git config user.email &quot;gitlab@xx.com&quot;</span><br></pre></td></tr></table></figure>
-
-<p>==注：配置加载的优先策略为先执行局部配置读取，再进行全局配置读取==</p>
-<hr>
-<ol start="4">
-<li>配置SSH认证私钥<br>通过puttygen工具（TortoiseGit）生成*.ppk文件,以支持pageant工具(TortoiseGit)认证私钥</li>
-</ol>
-<hr>
-<ol start="5">
-<li>注意事项<br>由于本人安装了TortoiseGit,其默认SSH工具为TortoiseGitPlink.exe，且配置了系统环境变量GIT_SSH指向TortoiseGitPlink.exe。在执行hexo d 指令时，默认该SSH工具进行链接，导致失败。后删除系统环境变量，且配置TortoiseGit的SSH工具为Git下的\usr\bin\ssh.exe，解决提交错误的问题</li>
-</ol>
 
         </div>
         
@@ -270,12 +229,12 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-07-24T10:05:37.545Z" itemprop="dateUpdated">2019-07-24 18:05:37</time>
+    Last updated: <time datetime="2019-07-29T09:56:59.469Z" itemprop="dateUpdated">2019-07-29 17:56:59</time>
 </span><br>
 
 
         
-        转载注明出处，原文地址：<a href="/my-blog/2019/07/24/在Windows下配置多个Git提交账户/" target="_blank" rel="external">https://fishhunterfree.github.io/my-blog/2019/07/24/在Windows下配置多个Git提交账户/</a>
+        转载注明出处，原文地址：<a href="/my-blog/2019/07/29/Git使用技巧/" target="_blank" rel="external">https://fishhunterfree.github.io/my-blog/2019/07/29/Git使用技巧/</a>
         
     </div>
     <footer>
@@ -304,7 +263,7 @@
       </li>
       
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/07/24/在Windows下配置多个Git提交账户/&title=《在Windows下配置多个Git提交账户》 — 鱼缸&source=本文记录在Windows下配置两个github账号的过程." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/07/29/Git使用技巧/&title=《Git使用技巧》 — 鱼缸&source=Git使用技巧" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -323,16 +282,16 @@
         
     </div>
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="prev">
-      <a href="/my-blog/2019/07/29/Git使用技巧/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">Git使用技巧</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
+  
+    <div class="next">
+      <a href="/my-blog/2019/07/24/在Windows下配置多个Git提交账户/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">在Windows下配置多个Git提交账户</h4>
+      </a>
+    </div>
   
 </nav>
 
@@ -364,6 +323,14 @@
     <a class="link" href=""></a>
 </div>
     
+    
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Git使用技巧"><span class="post-toc-number">1.</span> <span class="post-toc-text">Git使用技巧</span></a></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </aside>
     
 </article>
 
@@ -436,7 +403,7 @@
       </li>
       
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/07/24/在Windows下配置多个Git提交账户/&title=《在Windows下配置多个Git提交账户》 — 鱼缸&source=本文记录在Windows下配置两个github账号的过程." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/07/29/Git使用技巧/&title=《Git使用技巧》 — 鱼缸&source=Git使用技巧" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -448,7 +415,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADNElEQVR42u3aS24jMQwFwNz/0g6QVQD/Hkk1YMnVq2AmaavkBcFH/vzEz+3v+f/z/+f+d579bfIvz95z//v3Z1j8YGNjY2/Cvr18Juzkf5M3J6fNLdjY2NinspOilRxuTs0vdFJEsbGxsb+TXT1cQu1d6+u/xcbGxsbulaLow+LQqvcp2NjY2N/MroY1r4+VFL8EOQ+8FmRp2NjY2B/PnheYz/n58vk2NjY29oexb60nKUu9oWx10aenwMbGxj6JnQc38wBoFThvit6IsLGxsQ9l54HRfHFnFO4XR8JRloaNjY29Lbuaw1SHxL0C01vo6ZVkbGxs7DPY+Rh1sjoz/8S10RU2Njb2Gexq0D+JmfLyM4miRptK2NjY2Buy8/YjKS2rBgZJWcrbIWxsbOxT2dVIKG8hqhF/tWlJytLTE2JjY2MfxK7GPb2CVz3ovFjmYwxsbGzsk9hXtBmTuCoP/fNmBhsbG/tUdjXKSY5YjXuq19RrPKJBLzY2NvZW7MlAdHK46tC3uYVU/Z6xsbGxN2TnSzbV6Ce/0MmCTvVsT8e92NjY2NuyrygnvaC/9wVUiys2Njb2eezqsHZy0OrMOQ+nFrQr2NjY2Nuyq9PgHn5eAqvveVPMsLGxsY9jXzHuTQL63si21wItmDNjY2NjfyR7vnDTW6OsLlBWzxl9VdjY2NgHsZMyU72CvPBUQ6je1xMVM2xsbOwN2dXikQ9rq2PaPCTqXX05VMLGxsbehJ3HSUnEU20kqpc1aTkeXA02Njb2Eez843vLNL1QqToYLhdUbGxs7IPYvVh/7SJOdQA8vxRsbGzs89i9i+jFPasGAPmbm0s82NjY2Juzqy1E8mG9xZ355eaDBGxsbOwz2KvagOrKzuRa58NgbGxs7H3Zt+KTtyu9OKmHzEcaD6Yi2NjY2JuzewWgN15NDtRrSHpBFTY2NvZJ7PnC5etSkbxnUvB6hRYbGxv7PHZeGFat5iSXNQmSsLGxsbFXdTajBZq40CZvftCKYGNjY38Zuxr0XBfc9xqVZgHDxsbG3oQ9X5GsLt/0Aqzeog82Njb22ez5oDcpJ9WQqLo8NBk2Y2NjY2/L/gWrK/1hfUlTkAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACq0lEQVR42u3bUW7DIBQEwNz/0u1vpdTJLg9SVxp/VW5iGCoB3kcfj/j6+nE93/l5P/988t3nJzxOXHh4eHiDrr9+9FWHWlLS+jNpbbDw8PDwzvGuunv1mavGkuaTAcqpbyx4eHh4N+CtLSF51/M+4OHh4f0X3tqd/PO3W/fw8PDwBmFEvpnOo4qr3+4KhfHw8PBO8PIq0n1+PlLfw8PDwxtX1dtYYT5B52Fx1DoeHh7eAV4+4U5KXO1muo16X/cTDw8P7xyvPRSVH6iah79rRxDw8PDwTvDa6buNKvI7bSic/GHw8PDwPsNri/RrB7DyIc4xb94V8PDw8DbxJtN38ejBApBv1kcJMR4eHl7My8PZfGpeCziOBL54eHh4x3htGDGJbieb+HoJwcPDwzvAazfK8+Fon79tQ4+Hh4d3NivY8G+fSYDbFtK2fQsPDw9v07fyCXoN0B7V2hWL4OHh4e3lzV/72+WhjSpyagHAw8PDG/PW4to2us2n+LzFN5EHHh4e3gd58wh17VDC2hGxy/7j4eHhHea1HdpclIqPAuQbejw8PLy/4iWb73xRmYS29XDg4eHhHeC1BbC23LWGnBfk8PDw8E7zJlvntvl2yNoQGQ8PD++TvEn8mncuL2tNevLLewMeHh7eAd7r8v8oCCgPe9VvA+3RKzw8PLxNvLzr+bZ7LbyYbOvfbKnx8PDwtvLyIDXv0KSc1h4yqNcWPDw8vCXeV3nlsW/S9Um0EbWIh4eHd4DXTr554T9ZQuZLywYYHh4e3hKvPTCaH11Nup6D8yGOzuTi4eHhjXnJhD4v/89j3LyfeHh4ePfhrTHWFoB24cHDw8O7My/f+E6OurapQlEfw8PDwxvzTkQDkyBjEkbg4eHhneatvfC3ja1N68nwbbjw8PDwUt43NMvaTy5hiuoAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 

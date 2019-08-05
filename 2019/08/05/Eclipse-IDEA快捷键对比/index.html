@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     
     
-    <title>String.intern()来优化使用Redis | 鱼塘 | 捕获游鱼，藏入吾塘</title>
+    <title>Eclipse &amp; IDEA快捷键对比 | 鱼塘 | 捕获游鱼，藏入吾塘</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="keywords" content="Java,String">
+    <meta name="keywords" content="IDEA">
     <link rel="shortcut icon" href="/my-blog/img/favicon.ico">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
     <link rel="stylesheet" href="/my-blog/css/style.css?v=1.4.3">
@@ -144,7 +144,7 @@
           <i class="icon icon-lg icon-navicon"></i>
         </a>
         <div class="flex-col header-title ellipsis">
-            <span>String.intern()来优化使用Redis</span>
+            <span>Eclipse &amp; IDEA快捷键对比</span>
             
         </div>
         
@@ -157,15 +157,15 @@
 <header class="content-header post-header">
     <img src="/my-blog/img/banner.jpg" class="header-bg">
     <div class="container fade-scale">
-        <h1 class="title">String.intern()来优化使用Redis</h1>
+        <h1 class="title">Eclipse &amp; IDEA快捷键对比</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-08-02T05:05:24.000Z" itemprop="datePublished" class="page-time">
-  2019-08-02
+                <time datetime="2019-08-05T08:57:45.000Z" itemprop="datePublished" class="page-time">
+  2019-08-05
 </time>
 
 
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/Java/">Java</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/IDEA/">IDEA</a></li></ul>
 
             
         </h5>
@@ -190,20 +190,20 @@
 
 
 <div class="container body-wrap">
-    <article id="post-String-intern-来优化使用Redis"
+    <article id="post-Eclipse-IDEA快捷键对比"
   class="post-article article-type-post" itemprop="blogPost">
     <div class="post-card">
-        <h1 class="post-card-title">String.intern()来优化使用Redis</h1>
+        <h1 class="post-card-title">Eclipse & IDEA快捷键对比</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-08-02 13:05:24" datetime="2019-08-02T05:05:24.000Z"  itemprop="datePublished">2019-08-02</time>
+            <time class="post-time" title="2019-08-05 16:57:45" datetime="2019-08-05T08:57:45.000Z"  itemprop="datePublished">2019-08-05</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/Java/">Java</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/IDEA/">IDEA</a></li></ul>
 
 
 
             
-	<span id="/my-blog/2019/08/02/String-intern-来优化使用Redis/" class="leancloud_visitors" data-flag-title="String.intern()来优化使用Redis" title="String.intern()来优化使用Redis">
+	<span id="/my-blog/2019/08/05/Eclipse-IDEA快捷键对比/" class="leancloud_visitors" data-flag-title="Eclipse & IDEA快捷键对比" title="Eclipse & IDEA快捷键对比">
 		
 			<i class="icon icon-eye"></i>
 		
@@ -218,23 +218,12 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             
-            <p>本文记录使用String.intern()来优化使用Redis作为查询缓存的场景.</p>
+            <p>本文记录Eclipse &amp; IDEA快捷键对比，及IDEA智能补全的用法</p>
 <a id="more"></a>
 
 <hr>
-<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>在一个接口中，该接口被多个线程并发访问，该接口主要做了以下工作：查询的时候是根据广告的类型查询符合该类型的广告，如果查询到广告，那么就返回该类型广告列表。同时，由于请求量比较的大，为了增加查询速度，减轻数据库的负担，我们在该层加入Redis。</p>
-<p>我们会这样做，首先，我们去Redis查询该类型的广告，如果存在那么就直接返回，如果不存在，那么我们需要为该广告类型加锁，进行锁定，然后进行二次查询Redis（二次判空，保证查询排队的线程，只要有一个查询到了，那么其他的就不用查库了），然后查询数据库，再存入到Redis 中，返回即可。其他的线程，如果当时在排队，那么在二次判空的时候就可以拿到值，其他的则在第一次查询Redis中直接拿到了值。</p>
-<h3 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h3><p>但是，要注意，在接口中我们是在线程内部的，我们锁定的只是一个字符串对象。首先，相同值的字符串，也可能是不同的对象；其次，该场景下字符串为局部变量（需注意是字面量赋值还是new对象），在线程内部，由于线程的栈封闭性，我们锁定的该字符串值，其他线程并不知道。</p>
-<p>所以，我们需要一种策略，值相同的字符串就是一个对象，同时又是线程可见性的，那么字符串常量池就是一个很好的媒介，我们可以使用intern方法得到字符串常量池的引用，这样就保证了字符串值相同，那么就是一个对象，同时又是线程可见的。</p>
-<p>但是，我们最好还是不要直接用字符串的intern方法，首先在Jdk1.6以及之前，字符串常量池是存储在永久代中的，也就是方法区中的，如果频繁使用该方法，那么就会造成该区域内存占有过大，造成垃圾收集器的GC，从而影响程序的运行。Java有一个很好的工具库， Guava ，其中封装了很多的工具类，其中很多平时都很常用，其中就有一个类，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Interner&lt;String&gt; pool = Interners.newWeakInterner();</span><br></pre></td></tr></table></figure>
-
-<p>该类对 intern 做了很多的优化，使用弱引用包装了你传入的字符串类型，所以，这样就不会对内存造成较大的影响，可以使用该类的 pool.intern(str)来进行对字符串intern。 这样就解决了内存的问题。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>伪码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">if (redis 存在) &#123;</span><br><span class="line">    // 直接return;</span><br><span class="line">&#125; else &#123; </span><br><span class="line">    // 不存在</span><br><span class="line">    Interner&lt;String&gt; pool = Interners.newWeakInterner();</span><br><span class="line">    synchronized (pool.intern(str)) &#123;</span><br><span class="line">        if(redis 存在)&#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            // 查库，入redis,返回</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="问题扩展"><a href="#问题扩展" class="headerlink" title="问题扩展"></a>问题扩展</h3><p>synchronized关键字针对共享变量，方法，类加锁；针对局部变量或者对象，无法起到锁的效果</p>
-<p><a href="https://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html" target="_blank" rel="noopener">深入理解String#intern</a></p>
+<h3 id="Eclipse-amp-IDEA快捷键对比"><a href="#Eclipse-amp-IDEA快捷键对比" class="headerlink" title="Eclipse &amp; IDEA快捷键对比"></a>Eclipse &amp; IDEA快捷键对比</h3><p><a href="http://note.youdao.com/noteshare?id=b27d8f51b0ca4f447edcd9294a37e9ce&sub=1CE7E3C0583F4AAB847F847EE2657F1A" target="_blank" rel="noopener">整理文档</a></p>
+<h3 id="Intellij-IDEA-智能补全"><a href="#Intellij-IDEA-智能补全" class="headerlink" title="Intellij IDEA 智能补全"></a>Intellij IDEA 智能补全</h3><p><a href="https://mp.weixin.qq.com/s/7MI-WNBePwK9WNHGz6DnNA" target="_blank" rel="noopener">整理文档</a></p>
 
         </div>
         
@@ -242,12 +231,12 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-08-02T06:36:50.130Z" itemprop="dateUpdated">2019-08-02 14:36:50</time>
+    Last updated: <time datetime="2019-08-05T08:58:50.890Z" itemprop="dateUpdated">2019-08-05 16:58:50</time>
 </span><br>
 
 
         
-        转载注明出处，原文地址：<a href="/my-blog/2019/08/02/String-intern-来优化使用Redis/" target="_blank" rel="external">https://fishhunterfree.github.io/my-blog/2019/08/02/String-intern-来优化使用Redis/</a>
+        转载注明出处，原文地址：<a href="/my-blog/2019/08/05/Eclipse-IDEA快捷键对比/" target="_blank" rel="external">https://fishhunterfree.github.io/my-blog/2019/08/05/Eclipse-IDEA快捷键对比/</a>
         
     </div>
     <footer>
@@ -261,7 +250,7 @@
         
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/my-blog/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/my-blog/tags/String/">String</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/my-blog/tags/IDEA/">IDEA</a></li></ul>
 
             <div class="page-share-wrap">
     
@@ -276,7 +265,7 @@
       </li>
       
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/02/String-intern-来优化使用Redis/&title=《String.intern()来优化使用Redis》 — 鱼塘&source=本文记录使用String.intern()来优化使用Redis作为查询缓存的场景." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/05/Eclipse-IDEA快捷键对比/&title=《Eclipse & IDEA快捷键对比》 — 鱼塘&source=本文记录Eclipse &amp; IDEA快捷键对比，及IDEA智能补全的用法" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -295,21 +284,14 @@
         
     </div>
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="prev">
-      <a href="/my-blog/2019/08/02/8种常被忽视的SQL错误用法/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">8种常被忽视的SQL错误用法</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
   
     <div class="next">
-      <a href="/my-blog/2019/07/29/Git使用技巧/" id="post-next" class="post-nav-link">
+      <a href="/my-blog/2019/08/02/8种常被忽视的SQL错误用法/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">Git使用技巧</h4>
+        <h4 class="title">8种常被忽视的SQL错误用法</h4>
       </a>
     </div>
   
@@ -347,7 +329,7 @@
         <aside class="post-widget">
             <nav class="post-toc-wrap" id="post-toc">
                 <strong>目录</strong>
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用场景"><span class="post-toc-number">1.</span> <span class="post-toc-text">使用场景</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#案例分析"><span class="post-toc-number">2.</span> <span class="post-toc-text">案例分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解决方案"><span class="post-toc-number">3.</span> <span class="post-toc-text">解决方案</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问题扩展"><span class="post-toc-number">4.</span> <span class="post-toc-text">问题扩展</span></a></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Eclipse-amp-IDEA快捷键对比"><span class="post-toc-number">1.</span> <span class="post-toc-text">Eclipse &amp; IDEA快捷键对比</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Intellij-IDEA-智能补全"><span class="post-toc-number">2.</span> <span class="post-toc-text">Intellij IDEA 智能补全</span></a></li></ol>
             </nav>
             <div class="toc-bar"><div>
         </aside>
@@ -423,7 +405,7 @@
       </li>
       
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/02/String-intern-来优化使用Redis/&title=《String.intern()来优化使用Redis》 — 鱼塘&source=本文记录使用String.intern()来优化使用Redis作为查询缓存的场景." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/05/Eclipse-IDEA快捷键对比/&title=《Eclipse & IDEA快捷键对比》 — 鱼塘&source=本文记录Eclipse &amp; IDEA快捷键对比，及IDEA智能补全的用法" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -435,7 +417,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADGklEQVR42u3awXLiQAwEUP7/p7PXvcTulqAKT55PLgLxvOEgpJ7XK75+/rvy92zu86dfr2p1YWNjYz+E/XN5Je+5/mxCytfWvv7rlmFjY2Mfx75eUPueFvnbNuXU+rnY2NjYf5idPPj6lQS83wJsbGxs7ASWL3HTfiSNBzY2NjZ28oDrTZlhkq1sQ4g3z9KwsbGxv56dp6Lff/+RfBsbGxv7i9mb4DYvZpt2YlaobhTY2NjYB7HzAtBuR4vflNJ2/djY2NgnsffDoM2y9oOqYTiNjY2NfRx7FsEmwep1DJwPhmZbf9OBYWNjYx/HTgCbMjYrQrNDQjcrwcbGxj6InQyAcnxLnWHedkAHGxsb+zj2u062tLHB7FOzNgYbGxv7PHZSJNrxfQueVZYcf3NSCRsbG/vh7E/89M9fn21ZGw/fbA02Njb2Eew2dk2G+G0TMrtv8djY2NinsttC1UaqSXCblMDr/1Y3IdjY2NhHsJPFzYLbd4UBsy27KWnY2NjYB7HbYpOXkNn4qThwE389N0MlbGxs7Iez2wyhLR7tuKo9HpSvbZUYY2NjY38xe9NabMDtRrxG1xCPjY2N/Vh222BsDvTMSs4mEo6CXmxsbOyHs/MxfRsAtEd52gB4dlQIGxsb+yT2pnjMfuFvIuHZ0aJfg15sbGzsI9jJ4vK6996GIf/raiyFjY2N/Vj2JuJtG4/8s+1BnPoAEDY2Nvah7BlyM5xqQ4Xr1RZfJzY2NvZB7NmD91Hu7Il5GxN9VdjY2NjHsdsjjPm4fwbIB16zwomNjY19Hvtz+M3QKnnu8P9gY2NjH8feF57ZIZ58YLQZY0XZCDY2NvbD2cmBmLyAJSOe2TBov9HY2NjYJ7Fng/vN+P4VX5sQ4uaJ2NjY2Aex94toS9FsOzbtStLwYGNjYz+d3Q6S9hFsAmujgna7sbGxsc9jbwpDO2BK3rlvM4qgFxsbG/tPsofxalwO85KW3GNjY2NjJ6FvXkKKhmHxdGxsbOy/xs5bgpaUDPo3w6N8y7CxsbFPZedlYAZuN3E2uvpEaIGNjY399ex/L+BKFef7zG0AAAAASUVORK5CYII=" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACuUlEQVR42u3aQY7bMBAEwP3/pzdATkkc2d0zlJ0AxZMgrSWWDuJsD7++4vH9czwez67+Oh7PP/726uqxgYeHhzea+tVoH/Ocd/Xc5GU9n8/l3PDw8PBu4+WLQftZnyFz6gsLHh4e3kd57Ue8mERZrOPh4eH9j7z8TB5D5GEEHh4e3r/AS8KIs4Fvu8DcnrXg4eHhxbzNpD91/Kb+Hh4eHl7ZVU9Gcs9NALGZLR4eHt4dvLyETcLZ55No7zC724usBQ8PD2/N2080+e3ZSDf5Szw8PLz7eKdaWXl8kJNm2whepNR4eHh4a14bLuRXN3febCx4kbXg4eHhrXn7IjsPXmeFdR74FuU1Hh4e3oKXlNGnyuL9hoC8yMbDw8N7D69dHmbtq5yXxB/DVQ4PDw/vNl4bNESPLBeA2bLxW9aCh4eHd5Q3i1PzeDefRB5bJE24VVqMh4eHV/La0Ta9zta60bKBh4eHdxuvPZ61rzZXn4e5l2A8PDy8o7yzE92U0bPXV+8pw8PDw1vz8lK4bUHNtiC0z4peNB4eHt5beHkLqg1bV5uoZsEEHh4e3lFe/oCk4J7d7dSrjNJiPDw8vDVv9oFO2vztR3y2paAIc/Hw8PBu4CUlb7vdKnkR+VPyqLfeU4aHh4d36L/1/KM/Cwtm54uoFw8PD+8GXjLR2daoNrAoJjpazPDw8PBO8ZI4tQ0R2sb/BvliEcLDw8O7gZf3jPYRbdJCyzeB5eEIHh4e3lnedznavvzmlbUbDvDw8PDew8vHLK6dfeLbDQp4eHh47+cli8Fm6ntYvjDUqx8eHh7egpc/8mwJvnkpxcKAh4eH91HefmNB23LLf3u5gQAPDw/vQ7z8I77fgHVqJnh4eHj38WaBbF5G7++Zn//LwoCHh4d3lLePBtoiuG2qtYX4sf4eHh4e3p9XfwCOtGnOB/iZ8gAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 

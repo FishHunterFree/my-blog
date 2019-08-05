@@ -1,37 +1,224 @@
-<?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
     
-    <entry>
-      <title><![CDATA[Eclipse & IDEA快捷键对比]]></title>
-      <url>/my-blog/2019/08/05/Eclipse-IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%AF%B9%E6%AF%94/</url>
-      <content type="html"><![CDATA[<p>本文记录Eclipse &amp; IDEA快捷键对比，及IDEA智能补全的用法</p>
-<a id="more"></a>
+    
+    <title>8种常被忽视的SQL错误用法 | 鱼塘 | 捕获游鱼，藏入吾塘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="MySQL">
+    <link rel="shortcut icon" href="/my-blog/img/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/my-blog/css/style.css?v=1.4.3">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	false,
+            lv: JSON.parse('{"enable":true,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"codefine","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
 
-<hr>
-<h3 id="Eclipse-amp-IDEA快捷键对比"><a href="#Eclipse-amp-IDEA快捷键对比" class="headerlink" title="Eclipse &amp; IDEA快捷键对比"></a>Eclipse &amp; IDEA快捷键对比</h3><p><a href="http://note.youdao.com/noteshare?id=b27d8f51b0ca4f447edcd9294a37e9ce&sub=1CE7E3C0583F4AAB847F847EE2657F1A" target="_blank" rel="noopener">整理文档</a></p>
-<h3 id="Intellij-IDEA-智能补全"><a href="#Intellij-IDEA-智能补全" class="headerlink" title="Intellij IDEA 智能补全"></a>Intellij IDEA 智能补全</h3><p><a href="https://mp.weixin.qq.com/s/7MI-WNBePwK9WNHGz6DnNA" target="_blank" rel="noopener">整理文档</a></p>
-]]></content>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
       
-        <categories>
+      <img src="/my-blog/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/my-blog/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/my-blog/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">FishHunter</h5>
+          <a href="mailto:hydsxsy@126.com" title="hydsxsy@126.com" class="mail">
             
-            <category> IDEA </category>
+              <span>h</span>
             
-        </categories>
+              <span>y</span>
+            
+              <span>d</span>
+            
+              <span>s</span>
+            
+              <span>x</span>
+            
+              <span>s</span>
+            
+              <span>y</span>
+            
+              <span>@</span>
+            
+              <span>1</span>
+            
+              <span>2</span>
+            
+              <span>6</span>
+            
+              <span>.</span>
+            
+              <span>c</span>
+            
+              <span>o</span>
+            
+              <span>m</span>
+            
+          </a>
+        </hgroup>
         
-        
-        <tags>
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/FishHunterFree" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
             
-            <tag> IDEA </tag>
-            
-        </tags>
+        </ul>
         
-    </entry>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/my-blog/"  >
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                CATEGORIES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                TAGS
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/custom"  >
+                <i class="icon icon-lg icon-plus-square"></i>
+                CUSTOM
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>8种常被忽视的SQL错误用法</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/my-blog/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">8种常被忽视的SQL错误用法</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-02T08:33:19.000Z" itemprop="datePublished" class="page-time">
+  2019-08-02
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/MySQL/">MySQL</a></li></ul>
+
+            
+        </h5>
+        
+    </div>
     
-    <entry>
-      <title><![CDATA[8种常被忽视的SQL错误用法]]></title>
-      <url>/my-blog/2019/08/02/8%E7%A7%8D%E5%B8%B8%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84SQL%E9%94%99%E8%AF%AF%E7%94%A8%E6%B3%95/</url>
-      <content type="html"><![CDATA[<p>本文记录8种常被忽视的SQL错误用法.</p>
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left"/>
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-8种常被忽视的SQL错误用法"
+  class="post-article article-type-post" itemprop="blogPost">
+    <div class="post-card">
+        <h1 class="post-card-title">8种常被忽视的SQL错误用法</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-02 16:33:19" datetime="2019-08-02T08:33:19.000Z"  itemprop="datePublished">2019-08-02</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/MySQL/">MySQL</a></li></ul>
+
+
+
+            
+	<span id="/my-blog/2019/08/02/8种常被忽视的SQL错误用法/" class="leancloud_visitors" data-flag-title="8种常被忽视的SQL错误用法" title="8种常被忽视的SQL错误用法">
+		
+			<i class="icon icon-eye"></i>
+		
+		<span class="leancloud-visitors-count"></span>
+	</span>
+ 
+
+            
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            
+            <p>本文记录8种常被忽视的SQL错误用法.</p>
 <a id="more"></a>
 
 <hr>
@@ -129,151 +316,353 @@
 <blockquote>
 <p><a href="https://mp.weixin.qq.com/s/MfxvIfAbDWYk1TU0jTpllg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/MfxvIfAbDWYk1TU0jTpllg</a></p>
 </blockquote>
-]]></content>
-      
-        <categories>
-            
-            <category> MySQL </category>
-            
-        </categories>
+
+        </div>
         
+<blockquote class="post-copyright">
+    <div class="content">
         
-        <tags>
-            
-            <tag> MySQL </tag>
-            
-        </tags>
+<span class="post-time">
+    Last updated: <time datetime="2019-08-05T09:04:14.633Z" itemprop="dateUpdated">2019-08-05 17:04:14</time>
+</span><br>
+
+
         
-    </entry>
+        转载注明出处，原文地址：<a href="/my-blog/2019/08/02/8种常被忽视的SQL错误用法/" target="_blank" rel="external">https://fishhunterfree.github.io/my-blog/2019/08/02/8种常被忽视的SQL错误用法/</a>
+        
+    </div>
+    <footer>
+        <a href="https://fishhunterfree.github.io/my-blog">
+            <img src="/my-blog/img/avatar.jpg" alt="FishHunter">
+            FishHunter
+        </a>
+    </footer>
+</blockquote>
+
+        
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/my-blog/tags/MySQL/">MySQL</a></li></ul>
+
+            <div class="page-share-wrap">
     
-    <entry>
-      <title><![CDATA[String.intern()来优化使用Redis]]></title>
-      <url>/my-blog/2019/08/02/String-intern-%E6%9D%A5%E4%BC%98%E5%8C%96%E4%BD%BF%E7%94%A8Redis/</url>
-      <content type="html"><![CDATA[<p>本文记录使用String.intern()来优化使用Redis作为查询缓存的场景.</p>
-<a id="more"></a>
 
-<hr>
-<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>在一个接口中，该接口被多个线程并发访问，该接口主要做了以下工作：查询的时候是根据广告的类型查询符合该类型的广告，如果查询到广告，那么就返回该类型广告列表。同时，由于请求量比较的大，为了增加查询速度，减轻数据库的负担，我们在该层加入Redis。</p>
-<p>我们会这样做，首先，我们去Redis查询该类型的广告，如果存在那么就直接返回，如果不存在，那么我们需要为该广告类型加锁，进行锁定，然后进行二次查询Redis（二次判空，保证查询排队的线程，只要有一个查询到了，那么其他的就不用查库了），然后查询数据库，再存入到Redis 中，返回即可。其他的线程，如果当时在排队，那么在二次判空的时候就可以拿到值，其他的则在第一次查询Redis中直接拿到了值。</p>
-<h3 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h3><p>但是，要注意，在接口中我们是在线程内部的，我们锁定的只是一个字符串对象。首先，相同值的字符串，也可能是不同的对象；其次，该场景下字符串为局部变量（需注意是字面量赋值还是new对象），在线程内部，由于线程的栈封闭性，我们锁定的该字符串值，其他线程并不知道。</p>
-<p>所以，我们需要一种策略，值相同的字符串就是一个对象，同时又是线程可见性的，那么字符串常量池就是一个很好的媒介，我们可以使用intern方法得到字符串常量池的引用，这样就保证了字符串值相同，那么就是一个对象，同时又是线程可见的。</p>
-<p>但是，我们最好还是不要直接用字符串的intern方法，首先在Jdk1.6以及之前，字符串常量池是存储在永久代中的，也就是方法区中的，如果频繁使用该方法，那么就会造成该区域内存占有过大，造成垃圾收集器的GC，从而影响程序的运行。Java有一个很好的工具库， Guava ，其中封装了很多的工具类，其中很多平时都很常用，其中就有一个类，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Interner&lt;String&gt; pool = Interners.newWeakInterner();</span><br></pre></td></tr></table></figure>
-
-<p>该类对 intern 做了很多的优化，使用弱引用包装了你传入的字符串类型，所以，这样就不会对内存造成较大的影响，可以使用该类的 pool.intern(str)来进行对字符串intern。 这样就解决了内存的问题。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>伪码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">if (redis 存在) &#123;</span><br><span class="line">    // 直接return;</span><br><span class="line">&#125; else &#123; </span><br><span class="line">    // 不存在</span><br><span class="line">    Interner&lt;String&gt; pool = Interners.newWeakInterner();</span><br><span class="line">    synchronized (pool.intern(str)) &#123;</span><br><span class="line">        if(redis 存在)&#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            // 查库，入redis,返回</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="问题扩展"><a href="#问题扩展" class="headerlink" title="问题扩展"></a>问题扩展</h3><p>synchronized关键字针对共享变量，方法，类加锁；针对局部变量或者对象，无法起到锁的效果</p>
-<p><a href="https://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html" target="_blank" rel="noopener">深入理解String#intern</a></p>
-]]></content>
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
       
-        <categories>
-            
-            <category> Java </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Java </tag>
-            
-            <tag> String </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Git使用技巧]]></title>
-      <url>/my-blog/2019/07/29/Git%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
-      <content type="html"><![CDATA[<h2 id="Git使用技巧"><a href="#Git使用技巧" class="headerlink" title="Git使用技巧"></a>Git使用技巧</h2><a id="more"></a>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">&gt;1. 创建远程分枝</span><br><span class="line">    创建分支       git branch 分支名</span><br><span class="line">    推送到远程      git push origin 分支名</span><br><span class="line">    </span><br><span class="line">&gt;2. 第一次拉取远程分支（本地没有）</span><br><span class="line">    git fetch origin 远程分枝名:本地分枝名   </span><br><span class="line">    例如: git fetch origin feature/v1.0:feature/v1.0</span><br><span class="line">    </span><br><span class="line">&gt;3. 提交代码</span><br><span class="line">    1.git add .</span><br><span class="line">    2.git commit -m &quot;注释&quot;   </span><br><span class="line">    3.git pull</span><br><span class="line">    是否有冲突</span><br><span class="line">        4.1.有冲突解决后，回到第一步 git add . ,再执行一遍步骤</span><br><span class="line">        4.2.没有冲突，继续第5步</span><br><span class="line">    5.git push</span><br><span class="line">    </span><br><span class="line">&gt;4. 其他命令</span><br><span class="line">     git命令   任何操作都需要以 git 命令为开头</span><br><span class="line">     本地操作：</span><br><span class="line">     git init  初始化一个本地仓库  新建为 master主分支</span><br><span class="line">     git status  查看当前分支状态</span><br><span class="line">     git add  &lt;文件名&gt;   将文件更改添加到分支状态中 相当于文件等待被提交</span><br><span class="line">     git commit -m &lt;&quot;描述信息&quot;&gt;  提交并添加描述信息</span><br><span class="line">     git branch  查看分支   前面带*号的为当前所在分支</span><br><span class="line">     git branch &lt;分支名称&gt;  新建分支</span><br><span class="line">     git checkout &lt;分支名&gt;  切换分支</span><br><span class="line">     git checkout -b &lt;分支名&gt;  新建分支并切换到此分支</span><br><span class="line">     git merge &lt;分支名&gt;   将指定分支名合并到当前分支  一般为切换到主分支使用此命令</span><br><span class="line">     git merge --no-ff -m &quot;提交描述&quot; &lt;分支名&gt;   合并分支并提交</span><br><span class="line">     git branch -d &lt;分支名&gt;  有新建分支，那肯定有删除分支，假如这个分支新建错了，或者a分支的代码已经顺利合并到 master 分支来了，那么a分支没用了，需要删除，这个时候执行 git branch -d a 就可以把a分支删除了</span><br><span class="line">     git branch -D &lt;分支名&gt;  强制删除分支，不管分支是否有未提交合并的代码</span><br><span class="line"></span><br><span class="line">     git tag 查看所有标签</span><br><span class="line">     git tag &lt;标签名&gt; 在当前状态下新建一个标签，可用来当作版本号使用</span><br><span class="line">     git tag -a &lt;标签名称&gt; -m &lt;&quot;标签描述&quot;&gt; &lt;提交id&gt;  在指定的提交状态下新建一个标签</span><br><span class="line">     git show &lt;标签名称&gt;   查看标签的详情</span><br><span class="line">     git tag -d &lt;标签名&gt; 删除标签</span><br><span class="line">     git push origin &lt;标签名&gt;   推送标签到远程仓库</span><br><span class="line">     git push origin --tags  推送所有未推送的标签</span><br><span class="line">     git push origin :refs/tags/&lt;标签名&gt;   删除远程标签，本地要先删除后才可以</span><br><span class="line">     </span><br><span class="line">     </span><br><span class="line">     git checkout &lt;标签名&gt; 切换到标签名指定的状态</span><br><span class="line">     git diff &lt;文件名&gt; 查看文件修改内容</span><br><span class="line">     </span><br><span class="line">     git log      查看提交日志   --pretty=oneline  此参数减少输出信息  穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。</span><br><span class="line">     git reflog   要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。</span><br><span class="line">     git log --graph --pretty=oneline --abbrev-commit   查看分支合并图</span><br><span class="line">     git reset --hard &lt;HEAD^||提交ID&gt; 穿梭到指定提交版本</span><br><span class="line">     HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset --hard commit_id。</span><br><span class="line">     </span><br><span class="line">     git checkout -- &lt;文件名&gt;  将指定的文件恢复到最近一次 commit或add操作时候的状态</span><br><span class="line">     git reset HEAD &lt;文件名&gt;   将指定的文件从暂存区的修改撤销掉（unstage），重新放回工作区</span><br><span class="line">     git rm &lt;文件名&gt;       删除指定的文件</span><br><span class="line">     </span><br><span class="line">     git stash  把当前工作现场“储藏”起来，等以后恢复现场后继续工作</span><br><span class="line">     git stash list 查看暂存状态</span><br><span class="line">     git stash apply 恢复暂存状态</span><br><span class="line">     git stash drop  删除暂存状态</span><br><span class="line">     git stash pop   恢复并删除暂存状态</span><br><span class="line">     git stash apply &lt;stash@&#123;0&#125;&gt;  恢复指定的暂存状态</span><br><span class="line">     </span><br><span class="line">     </span><br><span class="line">     远程仓库操作:</span><br><span class="line">     git clone &lt;远程地址&gt;  从远征仓库拷贝过来代码，相当于建立本地分支</span><br><span class="line">     git pull 将最新的提交从远程仓库抓取下来</span><br><span class="line">     git push  将本地修改后的代码提交到远程仓库</span><br><span class="line">     git push &lt;远程仓库名，默认origin&gt; &lt;本地分支名&gt;  将指定的分支推送到远程分支上</span><br><span class="line">     </span><br><span class="line">     git remote -v 查看远程仓库  -v 为详细信息</span><br><span class="line">     </span><br><span class="line">     git checkout -b &lt;本地支分支名&gt; &lt;远程仓库名，默认origin&gt;/&lt;远程支分支名&gt; 拉取远程主分支下的支分支。。。</span><br><span class="line">     git branch --set-upstream &lt;本地支分支名&gt; &lt;远程仓库名，默认origin&gt;/&lt;远程支分支名&gt;  将本地分支与远程指定的分支关联起来</span><br><span class="line">     </span><br><span class="line">     //以下为先有本地库，再建立远程库操作所用的命令</span><br><span class="line">     git remote add origin &lt;URL地址&gt; 本地库与远征库关联</span><br><span class="line">     git push -u origin master 关联后，使用命令第一次推送master分支的所有内容，   -u参数为推送当前分支所有内容</span><br></pre></td></tr></table></figure>
-
-]]></content>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
       
-        <categories>
-            
-            <category> Git </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Git </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[在Windows下配置多个Git提交账户]]></title>
-      <url>/my-blog/2019/07/24/%E5%9C%A8Windows%E4%B8%8B%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AAGit%E6%8F%90%E4%BA%A4%E8%B4%A6%E6%88%B7/</url>
-      <content type="html"><![CDATA[<p>本文记录在Windows下配置两个github账号的过程.</p>
-<a id="more"></a>
-<hr>
-<ol>
-<li>生成并部署SSH Key</li>
-</ol>
-<p>安装好Git客户端后，打开git bash，输入以下命令生成user1的SSH Key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;user1@email.com&quot;</span><br></pre></td></tr></table></figure>
-
-<p>在当前用户的.ssh目录下(C:\Users\lenovo\.ssh)会生成id_rsa私钥文件和id_rsa.pub公钥文件，将id_rsa.pub中的内容添加至user1的github中。然后在git bash中输入以下命令测试该用户的SSH密钥是否生效：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-
-<p>==注：若提示‘ssh: connect to host github.com port 22: Connection timed out’，证明远端仓库拒绝匿名认证。若连接成功则提示‘Hi user1! You’ve successfully authenticated, but GitHub does not provide shell access.’==</p>
-<p>接着生成user2的密钥，注意不能再使用默认的文件名id_rsa，否则会覆盖之前密钥文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa2 -C &quot;user2@email.com&quot;</span><br></pre></td></tr></table></figure>
-
-<p>再将该用户的公钥文件添加至github中。测试user2的ssh连接时需要指定密钥文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com -i ~/.ssh/id_rsa2</span><br></pre></td></tr></table></figure>
-
-<hr>
-<ol start="2">
-<li>配置config文件</li>
-</ol>
-<p>在.ssh目录下创建一个config文本文件，每个账号配置一个Host节点。主要配置项说明</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Host            别名</span><br><span class="line">HostName        主机名</span><br><span class="line">Port            端口</span><br><span class="line">User            用户名</span><br><span class="line">IdentityFile    密钥文件的路径</span><br><span class="line">IdentitiesOnly  只接受SSH Key 登录</span><br><span class="line">PreferredAuthentications publickey  强制使用Public Key验证</span><br><span class="line"></span><br><span class="line"># 配置user1 </span><br><span class="line">Host u1.github.com</span><br><span class="line">HostName github.com</span><br><span class="line">IdentityFile ~/.ssh/id_rsa</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">User user1</span><br><span class="line"></span><br><span class="line"># 配置user2</span><br><span class="line">Host u2.github.com</span><br><span class="line">HostName github.com</span><br><span class="line">IdentityFile C:\\Users\\lenovo\\.ssh\\id_rsa2</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">User user2</span><br></pre></td></tr></table></figure>
-
-<p>再通过终端测试SSH Key是否生效</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@u1.github.com</span><br><span class="line">ssh -T git@u2.github.com</span><br></pre></td></tr></table></figure>
-
-<hr>
-<ol start="3">
-<li>配置用户名及邮箱</li>
-</ol>
-<p>如果之前配置过全局的用户名和邮箱，可以按需选择是否取消全局配置。若取消，需要在各仓库下单独配置相应的用户名和邮箱；反之仅需在需要单独用户的仓库下进行配置，未配置的仓库按照全局配置获取。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 全局配置（任意位置执行）</span><br><span class="line">$ git config --global user.name &quot;github&apos;s Name&quot;</span><br><span class="line"></span><br><span class="line">$ git config --global user.email &quot;github@xx.com&quot;</span><br><span class="line"></span><br><span class="line">$ git config --list</span><br><span class="line"></span><br><span class="line"># 取消全局配置</span><br><span class="line">git config --global --unset user.name</span><br><span class="line"></span><br><span class="line">git config --global --unset user.email</span><br><span class="line"></span><br><span class="line"># 局部配置（在下载的项目根目录执行）</span><br><span class="line">$ git config user.name &quot;gitlab&apos;s Name&quot;</span><br><span class="line"></span><br><span class="line">$ git config user.email &quot;gitlab@xx.com&quot;</span><br></pre></td></tr></table></figure>
-
-<p>==注：配置加载的优先策略为先执行局部配置读取，再进行全局配置读取==</p>
-<hr>
-<ol start="4">
-<li>配置SSH认证私钥<br>通过puttygen工具（TortoiseGit）生成*.ppk文件,以支持pageant工具(TortoiseGit)认证私钥</li>
-</ol>
-<hr>
-<ol start="5">
-<li>注意事项<br>由于本人安装了TortoiseGit,其默认SSH工具为TortoiseGitPlink.exe，且配置了系统环境变量GIT_SSH指向TortoiseGitPlink.exe。在执行hexo d 指令时，默认该SSH工具进行链接，导致失败。后删除系统环境变量，且配置TortoiseGit的SSH工具为Git下的\usr\bin\ssh.exe，解决提交错误的问题</li>
-</ol>
-]]></content>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/02/8种常被忽视的SQL错误用法/&title=《8种常被忽视的SQL错误用法》 — 鱼塘&source=本文记录8种常被忽视的SQL错误用法." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
       
-        <categories>
-            
-            <category> Git </category>
-            
-        </categories>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+        </div>
         
-        
-        <tags>
-            
-            <tag> Git </tag>
-            
-        </tags>
-        
-    </entry>
+    </div>
     
+<nav class="post-nav flex-row flex-justify-between">
   
+    <div class="prev">
+      <a href="/my-blog/2019/08/05/Eclipse-IDEA快捷键对比/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Eclipse &amp; IDEA快捷键对比</h4>
+      </a>
+    </div>
   
-</search>
+
+  
+    <div class="next">
+      <a href="/my-blog/2019/08/02/String-intern-来优化使用Redis/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">String.intern()来优化使用Redis</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+    
+        <div id="repo">
+    <div class="loading active"></div>
+    <div class="top clearfix">
+        <div class="avatar pull-left"></div>
+        <div class="content pull-left">
+            <p class="name"></p>
+            <p class="description"></p>
+        </div>
+    </div>
+    <ul class="bottom">
+        <li class="star">
+            <span class="icon icon-star"></span>
+            <span class="val">0</span>
+        </li>
+        <li class="fork">
+            <span class="icon icon-code-fork"></span>
+            <span class="val">0</span>
+        </li>
+        <li class="date">
+            <span class="icon icon-clock-o"></span>
+            <span class="val">0000-00-00</span>
+        </li>
+    </ul>
+    <a class="link" href=""></a>
+</div>
+    
+    
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Sql语句的执行顺序"><span class="post-toc-number">1.</span> <span class="post-toc-text">Sql语句的执行顺序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LIMIT-语句"><span class="post-toc-number">2.</span> <span class="post-toc-text">LIMIT 语句</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#隐式转换"><span class="post-toc-number">3.</span> <span class="post-toc-text">隐式转换</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#关联更新、删除"><span class="post-toc-number">4.</span> <span class="post-toc-text">关联更新、删除</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#混合排序"><span class="post-toc-number">5.</span> <span class="post-toc-text">混合排序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#EXISTS语句"><span class="post-toc-number">6.</span> <span class="post-toc-text">EXISTS语句</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#条件下推"><span class="post-toc-number">7.</span> <span class="post-toc-text">条件下推</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#提前缩小范围"><span class="post-toc-number">8.</span> <span class="post-toc-text">提前缩小范围</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#中间结果集下推"><span class="post-toc-number">9.</span> <span class="post-toc-text">中间结果集下推</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结"><span class="post-toc-number">10.</span> <span class="post-toc-text">总结</span></a></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </aside>
+    
+</article>
+
+
+</div>
+
+    </main>
+    <footer class="footer ">
+    
+    <div class="top">
+        
+            <p>
+    <span>Links：</span>
+    
+    <span class="blogroll-item">
+        <a href="https://fishhunterfree.github.io/my-blog/" target="_blank">HOME</a>
+    </span>
+    
+</p>
+
+        
+    </div>
+    
+    <div class="bottom">
+        <p>
+            <span>
+                FishHunter &copy; 2017 - 2019
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/02/8种常被忽视的SQL错误用法/&title=《8种常被忽视的SQL错误用法》 — 鱼塘&source=本文记录8种常被忽视的SQL错误用法." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADMElEQVR42u3awa7iQAwEQP7/p9nrSrtAtydIYCqnJwiTKefgZ3tut/i6B9ejO9v1//7k0bf//vb2jgsbGxv7S9gzTLuJ558/WvNRIJ7fE+0WGxsbex07We75RpOUkye256FP0t4LIzY2NvYPs9ugJAkveVbyOTY2NjZ2Dku2mBQYVzWwsLGxsbGTBzxf6CQc+VAhL4Eu66VhY2Njfzw7n4p+/t9vmW9jY2NjfzD7Xl7vSCfJCu3KL56LjY2NvYidJ4CrwnFeHiTj5GQ/2NjY2DvYeavoqkM2bVsqf25ynAgbGxv7F9gn20o2nY8fZsPjKHDY2NjY69j5yDYf/Z607/Ng5S/jP7UXNjY29gr2yYGb4l//OC2dZJk8cWJjY2PvYyct/jY5zTBtmTFrXWFjY2NvYs/Gt22CyQuY2fgheQHY2NjYW9ltGrsqneRhnTWzhk0lbGxs7K9lt0nlqvQ2WzkPUzQbwcbGxv5ydvKz/JBNOzZorzZZRu8ZGxsbeyk7T0554Gbt/pYdlUDY2NjYS9nt1vNgzZLZScPrRYrFxsbGXsRuWznnZUB+PCgvTmYvDBsbG3sHe9bQn6W09qhNe6CnCDQ2Njb2OnaSHmaHdU6aR3ng2kSIjY2NvY+d/LgtLdq21GxI3BZOtzZm2NjY2B/PzhNP3kiaNaTOR8K1CBsbG3sFu33MVWPX2RGcfG9FLw0bGxt7NTtPYPkgNn9iHvp2ZWxsbOyt7OTxsysPR97MagfP2NjY2LvZbWu+bTDVg9hRYiuGB9jY2NiL2CctnpPDNCfHMfOgv7gHGxsbeyk7H9y2bam2rT9LnEVBhY2Njb2OnZcH9WB1NIpox8w1HhsbG3sdu23ZtClkVgLNWldRgLCxsbFXsO/l1QYrby3l7ap8kHA0o8DGxsb+EvZsQDtrEuXFxmzwcFLwYGNjY387e9ZOmpUNedTbwUNb/GBjY2PvY580fdrGUHtI6OSg58NwY2NjY/8wezhYLcuPJASz8GFjY2NjJ6nl5P58tdnwAxsbG3srO0kP7Uggbyolo9+2sLmsl4aNjY398exZg6YdA7dBnK3chhIbGxv7y9l/AIWXDDdPKneRAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/fastclick.js?v=1.4.3"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/ios-orientationchange-fix.js?v=1.4.3"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/my-blog/js/method.js?v=1.4.3"></script>
+<script type="text/javascript" src="/my-blog/js/blog.js?v=1.4.3"></script>
+
+<!-- third-party -->
+
+
+    <script type="text/javascript">
+    (function() {
+
+        const origin = "FishHunterFree | my-blog"
+        let user, repo;
+        origin.replace(/(\S+)\s{0,1}\|\s{0,1}(\S+)/g, (...rest) => {
+            [user, repo] = [ rest[1], rest[2] ];
+        });
+        if (user && repo) {
+            const url = `//api.github.com/repos/${user}/${repo}?callback=?`;
+            $.getJSON(url, (data) => {
+                updateRepoInPage(data.data);
+            });
+        }
+
+        function updateRepoInPage(data) {
+            const {name, description, html_url: url, stargazers_count: stars, forks, owner: owner, updated_at: update} = data;
+            _loadAvatar(owner.avatar_url).then(avatarUrl => {
+                const avatarBg = `url(${avatarUrl})`;
+                const container = $('#repo');
+                container.click(() => {
+                    window.open(url);
+                });
+
+                //init
+                const loadingItem = container.find('.loading').hide();
+                const topItem = container.find('.top').addClass('active');
+                const bottomItem = container.find('.bottom').addClass('active');
+
+                //avatar
+                const avatarItem = container.find('.avatar');
+                const oldBg = avatarItem.css('background-image');
+                avatarItem.hover(() => {
+                    avatarItem.css('background-image', avatarBg);
+                }, () => {
+                    avatarItem.css('background-image', oldBg);
+                });
+
+                //repo-name
+                const nameItem = container.find('.name').html(name);
+
+                //description
+                const descriptionItem = container.find('.description').html(description);
+
+                //stars
+                const starItem = container.find('.star>.val').html(stars);
+
+                //forks
+                const forkItem = container.find('.fork>.val').html(forks);
+
+                //date
+                const formatDate = update.replace(/T.+/g, '');
+                const dateItem = container.find('.date>.val').html(formatDate);
+            });
+
+            function _loadAvatar(url) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        resolve(url);
+                    };
+                    img.src = url;
+                });
+            }
+
+        }
+
+    })();
+</script>
+
+
+
+
+
+<script type="text/javascript" src="/my-blog/js/plugins/local_search.js?v=1.4.3"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/my-blog/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+<script type="text/javascript" src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/leancloud_visitors.js?v=1.4.3"></script>
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
+
+
+    
+<script src="/my-blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/my-blog/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

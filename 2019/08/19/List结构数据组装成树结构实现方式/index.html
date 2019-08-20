@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    
+    <title>List结构数据组装成树结构实现方式 | 鱼塘 | 捕获游鱼，藏入吾塘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="Java,Tree">
+    <link rel="shortcut icon" href="/my-blog/img/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/my-blog/css/style.css?v=1.4.3">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	false,
+            lv: JSON.parse('{"enable":true,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"codefine","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
+
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      
+      <img src="/my-blog/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/my-blog/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/my-blog/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">FishHunter</h5>
+          <a href="mailto:hydsxsy@126.com" title="hydsxsy@126.com" class="mail">
+            
+              <span>h</span>
+            
+              <span>y</span>
+            
+              <span>d</span>
+            
+              <span>s</span>
+            
+              <span>x</span>
+            
+              <span>s</span>
+            
+              <span>y</span>
+            
+              <span>@</span>
+            
+              <span>1</span>
+            
+              <span>2</span>
+            
+              <span>6</span>
+            
+              <span>.</span>
+            
+              <span>c</span>
+            
+              <span>o</span>
+            
+              <span>m</span>
+            
+          </a>
+        </hgroup>
+        
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/FishHunterFree" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
+            
+        </ul>
+        
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/my-blog/"  >
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                CATEGORIES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                TAGS
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/custom"  >
+                <i class="icon icon-lg icon-plus-square"></i>
+                CUSTOM
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>List结构数据组装成树结构实现方式</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/my-blog/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">List结构数据组装成树结构实现方式</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-19T09:04:21.000Z" itemprop="datePublished" class="page-time">
+  2019-08-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/Java/">Java</a></li></ul>
+
+            
+        </h5>
+        
+    </div>
+    
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left"/>
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-List结构数据组装成树结构实现方式"
+  class="post-article article-type-post" itemprop="blogPost">
+    <div class="post-card">
+        <h1 class="post-card-title">List结构数据组装成树结构实现方式</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-19 17:04:21" datetime="2019-08-19T09:04:21.000Z"  itemprop="datePublished">2019-08-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/Java/">Java</a></li></ul>
+
+
+
+            
+	<span id="/my-blog/2019/08/19/List结构数据组装成树结构实现方式/" class="leancloud_visitors" data-flag-title="List结构数据组装成树结构实现方式" title="List结构数据组装成树结构实现方式">
+		
+			<i class="icon icon-eye"></i>
+		
+		<span class="leancloud-visitors-count"></span>
+	</span>
+ 
+
+            
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            
+            <p>本文记录List结构数据组装成树结构实现.</p>
+<a id="more"></a>
+
+<hr>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>通过查询数据库中具有父子关系的结构数据,将获得的List数据转换为Tree结构的数据,一般用于前端多级树展示</p>
+<h3 id="技术点"><a href="#技术点" class="headerlink" title="技术点"></a>技术点</h3><ul>
+<li>递归</li>
+<li>双层for循环</li>
+<li>高速缓存Map</li>
+</ul>
+<h3 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">[&#123;</span><br><span class="line">	&quot;id&quot;: &quot;1&quot;,</span><br><span class="line">	&quot;name&quot;: &quot;广州&quot;,</span><br><span class="line">	&quot;parentId&quot;: &quot;0&quot;,</span><br><span class="line">	&quot;children&quot;: [&#123;</span><br><span class="line">		&quot;id&quot;: &quot;3&quot;,</span><br><span class="line">		&quot;name&quot;: &quot;天河区&quot;,</span><br><span class="line">		&quot;parentId&quot;: &quot;1&quot;,</span><br><span class="line">		&quot;children&quot;: [&#123;</span><br><span class="line">			&quot;id&quot;: &quot;6&quot;,</span><br><span class="line">			&quot;name&quot;: &quot;石牌&quot;,</span><br><span class="line">			&quot;parentId&quot;: &quot;3&quot;,</span><br><span class="line">			&quot;children&quot;: [&#123;</span><br><span class="line">				&quot;id&quot;: &quot;7&quot;,</span><br><span class="line">				&quot;name&quot;: &quot;百脑汇&quot;,</span><br><span class="line">				&quot;parentId&quot;: &quot;6&quot;</span><br><span class="line">			&#125;]</span><br><span class="line">		&#125;]</span><br><span class="line">	&#125;, &#123;</span><br><span class="line">		&quot;id&quot;: &quot;4&quot;,</span><br><span class="line">		&quot;name&quot;: &quot;越秀区&quot;,</span><br><span class="line">		&quot;parentId&quot;: &quot;1&quot;</span><br><span class="line">	&#125;, &#123;</span><br><span class="line">		&quot;id&quot;: &quot;5&quot;,</span><br><span class="line">		&quot;name&quot;: &quot;黄埔区&quot;,</span><br><span class="line">		&quot;parentId&quot;: &quot;1&quot;</span><br><span class="line">	&#125;]</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	&quot;id&quot;: &quot;2&quot;,</span><br><span class="line">	&quot;name&quot;: &quot;深圳&quot;,</span><br><span class="line">	&quot;parentId&quot;: &quot;0&quot;,</span><br><span class="line">	&quot;children&quot;: [&#123;</span><br><span class="line">		&quot;id&quot;: &quot;8&quot;,</span><br><span class="line">		&quot;name&quot;: &quot;南山区&quot;,</span><br><span class="line">		&quot;parentId&quot;: &quot;2&quot;,</span><br><span class="line">		&quot;children&quot;: [&#123;</span><br><span class="line">			&quot;id&quot;: &quot;10&quot;,</span><br><span class="line">			&quot;name&quot;: &quot;科技园&quot;,</span><br><span class="line">			&quot;parentId&quot;: &quot;8&quot;</span><br><span class="line">		&#125;]</span><br><span class="line">	&#125;, &#123;</span><br><span class="line">		&quot;id&quot;: &quot;9&quot;,</span><br><span class="line">		&quot;name&quot;: &quot;宝安区&quot;,</span><br><span class="line">		&quot;parentId&quot;: &quot;2&quot;</span><br><span class="line">	&#125;]</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><p>树节点定义:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">import com.alibaba.fastjson.annotation.JSONType;</span><br><span class="line">import lombok.Data;</span><br><span class="line"></span><br><span class="line">import java.io.Serializable;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * TODO 树节点</span><br><span class="line"> *</span><br><span class="line"> * @date 2019/8/19 17:54</span><br><span class="line"> **/</span><br><span class="line">@Data</span><br><span class="line">@JSONType(orders = &#123;&quot;id&quot;,&quot;name&quot;,&quot;parentId&quot;,&quot;children&quot;&#125;)</span><br><span class="line">public class TreeNode implements Serializable&#123;</span><br><span class="line">    private String id;</span><br><span class="line"></span><br><span class="line">    private String parentId;</span><br><span class="line"></span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    private List&lt;TreeNode&gt; children;</span><br><span class="line"></span><br><span class="line">    public TreeNode(String id, String name, String parentId) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.parentId = parentId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public TreeNode(String id, String name, TreeNode parent) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.parentId = parent.getId();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public TreeNode(TreeNode node) &#123;</span><br><span class="line">        this.id = node.getId();</span><br><span class="line">        this.name = node.getName();</span><br><span class="line">        this.parentId = node.getParentId();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>树组装类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br></pre></td><td class="code"><pre><span class="line">import com.alibaba.fastjson.JSONObject;</span><br><span class="line">import com.alibaba.fastjson.serializer.SerializerFeature;</span><br><span class="line">import org.junit.Test;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * TODO 树构造器</span><br><span class="line"> *</span><br><span class="line"> * @date 2019/8/19 17:55</span><br><span class="line"> **/</span><br><span class="line">public class TreeBuilder &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * TODO 双层循环实现建树,对传入的树节点列表无排序要求</span><br><span class="line">     * @param treeNodes 传入的树节点列表</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static List&lt;TreeNode&gt; bulidByLoop(List&lt;TreeNode&gt; treeNodes) &#123;</span><br><span class="line"></span><br><span class="line">        List&lt;TreeNode&gt; trees = new ArrayList&lt;TreeNode&gt;();</span><br><span class="line">        for (TreeNode treeNode : treeNodes) &#123;</span><br><span class="line">            /*</span><br><span class="line">             * 根节点的父Id为0,且不要求仅有唯一的根</span><br><span class="line">              */</span><br><span class="line">            if (&quot;0&quot;.equals(treeNode.getParentId())) &#123;</span><br><span class="line">                trees.add(treeNode);</span><br><span class="line">            &#125;</span><br><span class="line">            for (TreeNode it : treeNodes) &#123;</span><br><span class="line">                if (it.getParentId() == treeNode.getId()) &#123;</span><br><span class="line">                    if (treeNode.getChildren() == null) &#123;</span><br><span class="line">                        treeNode.setChildren(new ArrayList&lt;TreeNode&gt;());</span><br><span class="line">                    &#125;</span><br><span class="line">                    treeNode.getChildren().add(it);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return trees;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * TODO 使用递归方法建树,对传入的树节点列表无排序要求</span><br><span class="line">     * @param treeNodes</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static List&lt;TreeNode&gt; buildByRecursive(List&lt;TreeNode&gt; treeNodes) &#123;</span><br><span class="line">        List&lt;TreeNode&gt; trees = new ArrayList&lt;TreeNode&gt;();</span><br><span class="line">        for (TreeNode treeNode : treeNodes) &#123;</span><br><span class="line">            // 根节点的父Id为0,且不要求仅有唯一的根</span><br><span class="line">            if (&quot;0&quot;.equals(treeNode.getParentId())) &#123;</span><br><span class="line">                trees.add(findChildren(treeNode,treeNodes));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return trees;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * TODO 递归查找子节点</span><br><span class="line">     * @param treeNodes</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static TreeNode findChildren(TreeNode treeNode,List&lt;TreeNode&gt; treeNodes) &#123;</span><br><span class="line">        for (TreeNode it : treeNodes) &#123;</span><br><span class="line">            if(treeNode.getId().equals(it.getParentId())) &#123;</span><br><span class="line">                if (treeNode.getChildren() == null) &#123;</span><br><span class="line">                    treeNode.setChildren(new ArrayList&lt;TreeNode&gt;());</span><br><span class="line">                &#125;</span><br><span class="line">                treeNode.getChildren().add(findChildren(it,treeNodes));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return treeNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * TODO 通过Map缓存生成树</span><br><span class="line">     * @param dataList 经过排序的集合,要求父节点必须位于集合第一个元素,且仅能存在唯一的根节点</span><br><span class="line">     * @return tree.TreeNode</span><br><span class="line">     **/</span><br><span class="line">    public static TreeNode bulidByMapLink(List&lt;TreeNode&gt; dataList) &#123;</span><br><span class="line">        if (null == dataList || 0 == dataList.size()) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        // 节点缓存</span><br><span class="line">        Map&lt;String, TreeNode&gt; linkTree = new HashMap&lt;String, TreeNode&gt;();</span><br><span class="line">        TreeNode temp = new TreeNode(dataList.get(0));</span><br><span class="line">        // 缓存树结构</span><br><span class="line">        linkTree.put(temp.getId(), temp);</span><br><span class="line">        // 遍历数据除首条外的数据，建立节点关联关系</span><br><span class="line">        for (int i = 1; i &lt; dataList.size(); i++) &#123;</span><br><span class="line">            TreeNode node = new TreeNode(dataList.get(i));</span><br><span class="line">            if (null != linkTree.get(dataList.get(i).getParentId())) &#123;</span><br><span class="line">                // 缓存中已存在相关父节点,子节点</span><br><span class="line">                if (null == linkTree.get(dataList.get(i).getParentId()).getChildren()) &#123;</span><br><span class="line">                    // 缓存中子节点不存在</span><br><span class="line">                    linkTree.get(dataList.get(i).getParentId()).setChildren(new ArrayList&lt;TreeNode&gt;());</span><br><span class="line">                &#125;</span><br><span class="line">                linkTree.get(dataList.get(i).getParentId()).getChildren().add(node);</span><br><span class="line">            &#125;</span><br><span class="line">            linkTree.put(node.getId(), node);</span><br><span class="line">        &#125;</span><br><span class="line">        TreeNode reTree = linkTree.get(temp.getId());</span><br><span class="line">        linkTree.clear();</span><br><span class="line">        return reTree;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * TODO 为双层循环,递归方法实现建树组装集合</span><br><span class="line">     * @param</span><br><span class="line">     * @return java.util.List&lt;tree.TreeNode&gt;</span><br><span class="line">     * @date 2019/8/20 10:44</span><br><span class="line">     **/</span><br><span class="line">    public static List&lt;TreeNode&gt; initList()&#123;</span><br><span class="line">        TreeNode treeNode1 = new TreeNode(&quot;1&quot;,&quot;广州&quot;,&quot;0&quot;);</span><br><span class="line">        TreeNode treeNode2 = new TreeNode(&quot;2&quot;,&quot;深圳&quot;,&quot;0&quot;);</span><br><span class="line"></span><br><span class="line">        TreeNode treeNode3 = new TreeNode(&quot;3&quot;,&quot;天河区&quot;,treeNode1);</span><br><span class="line">        TreeNode treeNode4 = new TreeNode(&quot;4&quot;,&quot;越秀区&quot;,treeNode1);</span><br><span class="line">        TreeNode treeNode5 = new TreeNode(&quot;5&quot;,&quot;黄埔区&quot;,treeNode1);</span><br><span class="line">        TreeNode treeNode6 = new TreeNode(&quot;6&quot;,&quot;石牌&quot;,treeNode3);</span><br><span class="line">        TreeNode treeNode7 = new TreeNode(&quot;7&quot;,&quot;百脑汇&quot;,treeNode6);</span><br><span class="line"></span><br><span class="line">        TreeNode treeNode8 = new TreeNode(&quot;8&quot;,&quot;南山区&quot;,treeNode2);</span><br><span class="line">        TreeNode treeNode9 = new TreeNode(&quot;9&quot;,&quot;宝安区&quot;,treeNode2);</span><br><span class="line">        TreeNode treeNode10 = new TreeNode(&quot;10&quot;,&quot;科技园&quot;,treeNode8);</span><br><span class="line"></span><br><span class="line">        List&lt;TreeNode&gt; list = new ArrayList&lt;TreeNode&gt;();</span><br><span class="line">        list.add(treeNode1);</span><br><span class="line">        list.add(treeNode2);</span><br><span class="line">        list.add(treeNode3);</span><br><span class="line">        list.add(treeNode4);</span><br><span class="line">        list.add(treeNode5);</span><br><span class="line">        list.add(treeNode6);</span><br><span class="line">        list.add(treeNode7);</span><br><span class="line">        list.add(treeNode8);</span><br><span class="line">        list.add(treeNode9);</span><br><span class="line">        list.add(treeNode10);</span><br><span class="line">        return list;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * TODO 为通过Map缓存实现建树组装集合</span><br><span class="line">     * @param</span><br><span class="line">     * @return java.util.List&lt;tree.TreeNode&gt;</span><br><span class="line">     * @date 2019/8/20 10:45</span><br><span class="line">     **/</span><br><span class="line">    public static List&lt;TreeNode&gt; initListByMapLink()&#123;</span><br><span class="line">        TreeNode treeNode0_t = new TreeNode(&quot;0&quot;,&quot;中国&quot;,&quot;-1&quot;);</span><br><span class="line"></span><br><span class="line">        TreeNode treeNode1_t = new TreeNode(&quot;1&quot;,&quot;广州&quot;,treeNode0_t);</span><br><span class="line">        TreeNode treeNode2_t = new TreeNode(&quot;2&quot;,&quot;深圳&quot;,treeNode0_t);</span><br><span class="line"></span><br><span class="line">        TreeNode treeNode3_t = new TreeNode(&quot;3&quot;,&quot;天河区&quot;,treeNode1_t);</span><br><span class="line">        TreeNode treeNode4_t = new TreeNode(&quot;4&quot;,&quot;越秀区&quot;,treeNode1_t);</span><br><span class="line">        TreeNode treeNode5_t = new TreeNode(&quot;5&quot;,&quot;黄埔区&quot;,treeNode1_t);</span><br><span class="line">        TreeNode treeNode6_t = new TreeNode(&quot;6&quot;,&quot;石牌&quot;,treeNode3_t);</span><br><span class="line">        TreeNode treeNode7_t = new TreeNode(&quot;7&quot;,&quot;百脑汇&quot;,treeNode6_t);</span><br><span class="line"></span><br><span class="line">        TreeNode treeNode8_t = new TreeNode(&quot;8&quot;,&quot;南山区&quot;,treeNode2_t);</span><br><span class="line">        TreeNode treeNode9_t = new TreeNode(&quot;9&quot;,&quot;宝安区&quot;,treeNode2_t);</span><br><span class="line">        TreeNode treeNode10_t = new TreeNode(&quot;10&quot;,&quot;科技园&quot;,treeNode8_t);</span><br><span class="line"></span><br><span class="line">        List&lt;TreeNode&gt; list_t = new ArrayList&lt;TreeNode&gt;();</span><br><span class="line">        list_t.add(treeNode0_t);</span><br><span class="line">        list_t.add(treeNode1_t);</span><br><span class="line">        list_t.add(treeNode2_t);</span><br><span class="line">        list_t.add(treeNode3_t);</span><br><span class="line">        list_t.add(treeNode4_t);</span><br><span class="line">        list_t.add(treeNode5_t);</span><br><span class="line">        list_t.add(treeNode6_t);</span><br><span class="line">        list_t.add(treeNode7_t);</span><br><span class="line">        list_t.add(treeNode8_t);</span><br><span class="line">        list_t.add(treeNode9_t);</span><br><span class="line">        list_t.add(treeNode10_t);</span><br><span class="line">        return list_t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void testBulidByLoop()&#123;</span><br><span class="line">        List&lt;TreeNode&gt; treeNodes = initList();</span><br><span class="line">        List&lt;TreeNode&gt; trees_0 = TreeBuilder.bulidByLoop(treeNodes);</span><br><span class="line">        // 指定Json转换时保持Key顺序,Key顺序由@JSONType(orders)指定</span><br><span class="line">        System.out.println(&quot;trees[0]:&quot;+ JSONObject.toJSONString(trees_0, SerializerFeature.SortField));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void testBulidByRecursive()&#123;</span><br><span class="line">        List&lt;TreeNode&gt; treeNodes = initList();</span><br><span class="line">        List&lt;TreeNode&gt; trees_1 = TreeBuilder.buildByRecursive(treeNodes);</span><br><span class="line">        System.out.println(&quot;trees[1]:&quot;+ JSONObject.toJSONString(trees_1, SerializerFeature.SortField));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void testBulidByMapLink()&#123;</span><br><span class="line">        List&lt;TreeNode&gt; treeNodes = initListByMapLink();</span><br><span class="line">        TreeNode trees_2 = TreeBuilder.bulidByMapLink(treeNodes);</span><br><span class="line">        System.out.println(&quot;trees[2]:&quot;+ JSONObject.toJSONString(trees_2, SerializerFeature.SortField));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+        
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-08-20T09:02:43.192Z" itemprop="dateUpdated">2019-08-20 17:02:43</time>
+</span><br>
+
+
+        
+        转载注明出处，原文地址：<a href="/my-blog/2019/08/19/List结构数据组装成树结构实现方式/" target="_blank" rel="external">https://fishhunterfree.github.io/my-blog/2019/08/19/List结构数据组装成树结构实现方式/</a>
+        
+    </div>
+    <footer>
+        <a href="https://fishhunterfree.github.io/my-blog">
+            <img src="/my-blog/img/avatar.jpg" alt="FishHunter">
+            FishHunter
+        </a>
+    </footer>
+</blockquote>
+
+        
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/my-blog/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/my-blog/tags/Tree/">Tree</a></li></ul>
+
+            <div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/19/List结构数据组装成树结构实现方式/&title=《List结构数据组装成树结构实现方式》 — 鱼塘&source=本文记录List结构数据组装成树结构实现." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+        </div>
+        
+    </div>
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="prev">
+      <a href="/my-blog/2019/08/20/mongoDB结构文档多层次查询及更新/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">mongoDB结构文档多层次查询及更新</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="next">
+      <a href="/my-blog/2019/08/19/Spring-AOP日志记录实现/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Spring AOP日志记录实现</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+    
+        <div id="repo">
+    <div class="loading active"></div>
+    <div class="top clearfix">
+        <div class="avatar pull-left"></div>
+        <div class="content pull-left">
+            <p class="name"></p>
+            <p class="description"></p>
+        </div>
+    </div>
+    <ul class="bottom">
+        <li class="star">
+            <span class="icon icon-star"></span>
+            <span class="val">0</span>
+        </li>
+        <li class="fork">
+            <span class="icon icon-code-fork"></span>
+            <span class="val">0</span>
+        </li>
+        <li class="date">
+            <span class="icon icon-clock-o"></span>
+            <span class="val">0000-00-00</span>
+        </li>
+    </ul>
+    <a class="link" href=""></a>
+</div>
+    
+    
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用场景"><span class="post-toc-number">1.</span> <span class="post-toc-text">使用场景</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#技术点"><span class="post-toc-number">2.</span> <span class="post-toc-text">技术点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#效果展示"><span class="post-toc-number">3.</span> <span class="post-toc-text">效果展示</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现代码"><span class="post-toc-number">4.</span> <span class="post-toc-text">实现代码</span></a></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </aside>
+    
+</article>
+
+
+</div>
+
+    </main>
+    <footer class="footer ">
+    
+    <div class="top">
+        
+            <p>
+    <span>Links：</span>
+    
+    <span class="blogroll-item">
+        <a href="https://fishhunterfree.github.io/my-blog/" target="_blank">HOME</a>
+    </span>
+    
+</p>
+
+        
+    </div>
+    
+    <div class="bottom">
+        <p>
+            <span>
+                FishHunter &copy; 2017 - 2019
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/19/List结构数据组装成树结构实现方式/&title=《List结构数据组装成树结构实现方式》 — 鱼塘&source=本文记录List结构数据组装成树结构实现." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADLUlEQVR42u3awW6rQAwF0Pz/T+dtK/WVXttEBXNYVRGQOdOFM9d+veLr/eX6+kn1nuP7v3/+0z3f73994sLGxsa+Cft9eP10T+9bjsEJ6fg9iQUbGxt7KztZaFJ48uKU86pri4ocNjY29oPZ+T1JITl+c16isLGxsbEnpN6z1cPGJMbCxsbGfgI7Lwx5yUkCoGpoVX3PCVkaNjY29uXZvXD/mn9/pL+NjY2NfWH2u3j1Av15YasWql8U2NjY2IvYeQFIftbnR4i/Gv3BxsbG3seeYJJoPh+7OYsUNYCxsbGx17GrjdvesE7yea/45d+OjY2NvY+d8/IwaN5qnTCSdWJjY2NvYn9iob0lHlN70VUhVMLGxsZexJ6HR2dFRdWylK8fGxsbexM7LwzJIaFQQuLWb2+gp5mrYWNjY9+QnbdI56M2+fGj1+jNNxcbGxt7E7vXfO0dCXpjPXnA1OyEYGNjY69m944feVmqHjOqbYzo7IWNjY29gl1ulJ7bdg2WmxeqUZMAGxsb+4bsvIHaG6/Jy0+1fE7azNjY2Nib2Hl4NAmJJrFRHhKVmxbY2NjY69jVcKdaMCajNmc1krGxsbF3s3tFaD46mS802e7CYQkbGxt7ETtvylYLVe+YkY+B5kepQjHDxsbGvhW7OrA45yXUXgks/EuwsbGx17Hzn/V5nDQJmOaR1i/lDRsbG3sduwquNhg+vcXlMSNsbGzspezez/28hOTs/KDSbGBgY2NjP4DdG6zJY/2kxZsXtnyDsLGxsfexqxOJ+XILEc9gTLN6QGoOYmJjY2Nfnt3DVI8B+XKra8vL3n+iJWxsbOxF7HxMp9fQ7b25emehyYGNjY29lF0tOXkwVD0bTQ4h0T8AGxsbewX7XbyqsVHS7p0M6+RbX+hpYGNjY9+KnV/5cvPN6jVuJxtd3gJsbGzsm7B7RasKmFzV9nP0HmxsbOx17MkYTTWsn2xob7MKjV5sbGzsx7B7gVGvAVwNj6KSho2Njf1gdvXZ3qJ735KHYtjY2Nj72MmBodoMrg7x5M/Oxz2xsbGxN7F7AU3Sds1hx0/1Iq0T2hXY2NjYV2f/A7XDPtp/lSajAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/fastclick.js?v=1.4.3"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/ios-orientationchange-fix.js?v=1.4.3"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/my-blog/js/method.js?v=1.4.3"></script>
+<script type="text/javascript" src="/my-blog/js/blog.js?v=1.4.3"></script>
+
+<!-- third-party -->
+
+
+    <script type="text/javascript">
+    (function() {
+
+        const origin = "FishHunterFree | my-blog"
+        let user, repo;
+        origin.replace(/(\S+)\s{0,1}\|\s{0,1}(\S+)/g, (...rest) => {
+            [user, repo] = [ rest[1], rest[2] ];
+        });
+        if (user && repo) {
+            const url = `//api.github.com/repos/${user}/${repo}?callback=?`;
+            $.getJSON(url, (data) => {
+                updateRepoInPage(data.data);
+            });
+        }
+
+        function updateRepoInPage(data) {
+            const {name, description, html_url: url, stargazers_count: stars, forks, owner: owner, updated_at: update} = data;
+            _loadAvatar(owner.avatar_url).then(avatarUrl => {
+                const avatarBg = `url(${avatarUrl})`;
+                const container = $('#repo');
+                container.click(() => {
+                    window.open(url);
+                });
+
+                //init
+                const loadingItem = container.find('.loading').hide();
+                const topItem = container.find('.top').addClass('active');
+                const bottomItem = container.find('.bottom').addClass('active');
+
+                //avatar
+                const avatarItem = container.find('.avatar');
+                const oldBg = avatarItem.css('background-image');
+                avatarItem.hover(() => {
+                    avatarItem.css('background-image', avatarBg);
+                }, () => {
+                    avatarItem.css('background-image', oldBg);
+                });
+
+                //repo-name
+                const nameItem = container.find('.name').html(name);
+
+                //description
+                const descriptionItem = container.find('.description').html(description);
+
+                //stars
+                const starItem = container.find('.star>.val').html(stars);
+
+                //forks
+                const forkItem = container.find('.fork>.val').html(forks);
+
+                //date
+                const formatDate = update.replace(/T.+/g, '');
+                const dateItem = container.find('.date>.val').html(formatDate);
+            });
+
+            function _loadAvatar(url) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        resolve(url);
+                    };
+                    img.src = url;
+                });
+            }
+
+        }
+
+    })();
+</script>
+
+
+
+
+
+<script type="text/javascript" src="/my-blog/js/plugins/local_search.js?v=1.4.3"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/my-blog/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+<script type="text/javascript" src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/leancloud_visitors.js?v=1.4.3"></script>
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
+
+
+    
+<script src="/my-blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/my-blog/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

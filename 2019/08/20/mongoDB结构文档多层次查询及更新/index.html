@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    
+    <title>mongoDB结构文档多层次查询及更新 | 鱼塘 | 捕获游鱼，藏入吾塘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="Mongodb,Spring Data Mongodb">
+    <link rel="shortcut icon" href="/my-blog/img/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/my-blog/css/style.css?v=1.4.3">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	false,
+            lv: JSON.parse('{"enable":true,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"codefine","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
+
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      
+      <img src="/my-blog/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/my-blog/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/my-blog/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">FishHunter</h5>
+          <a href="mailto:hydsxsy@126.com" title="hydsxsy@126.com" class="mail">
+            
+              <span>h</span>
+            
+              <span>y</span>
+            
+              <span>d</span>
+            
+              <span>s</span>
+            
+              <span>x</span>
+            
+              <span>s</span>
+            
+              <span>y</span>
+            
+              <span>@</span>
+            
+              <span>1</span>
+            
+              <span>2</span>
+            
+              <span>6</span>
+            
+              <span>.</span>
+            
+              <span>c</span>
+            
+              <span>o</span>
+            
+              <span>m</span>
+            
+          </a>
+        </hgroup>
+        
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/FishHunterFree" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
+            
+        </ul>
+        
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/my-blog/"  >
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                CATEGORIES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                TAGS
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/custom"  >
+                <i class="icon icon-lg icon-plus-square"></i>
+                CUSTOM
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>mongoDB结构文档多层次查询及更新</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/my-blog/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">mongoDB结构文档多层次查询及更新</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-20T03:36:06.000Z" itemprop="datePublished" class="page-time">
+  2019-08-20
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/Mongodb/">Mongodb</a></li></ul>
+
+            
+        </h5>
+        
+    </div>
+    
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left"/>
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-mongoDB结构文档多层次查询及更新"
+  class="post-article article-type-post" itemprop="blogPost">
+    <div class="post-card">
+        <h1 class="post-card-title">mongoDB结构文档多层次查询及更新</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-20 11:36:06" datetime="2019-08-20T03:36:06.000Z"  itemprop="datePublished">2019-08-20</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/Mongodb/">Mongodb</a></li></ul>
+
+
+
+            
+	<span id="/my-blog/2019/08/20/mongoDB结构文档多层次查询及更新/" class="leancloud_visitors" data-flag-title="mongoDB结构文档多层次查询及更新" title="mongoDB结构文档多层次查询及更新">
+		
+			<i class="icon icon-eye"></i>
+		
+		<span class="leancloud-visitors-count"></span>
+	</span>
+ 
+
+            
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            
+            <p>本文记录Spring Data Mongodb中对mongoDB查询及更新的实现.</p>
+<a id="more"></a>
+
+<hr>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>mongoDB中文档会具有较深的深度,在通过mongoTemplate进行处理时,需要注意使用的语法.本文介绍两种场景:深层次查询及更新</p>
+<h3 id="技术点"><a href="#技术点" class="headerlink" title="技术点"></a>技术点</h3><ul>
+<li>mongoDB语法</li>
+<li>mongoTemplate接口API</li>
+</ul>
+<h3 id="mongoDB文档展示"><a href="#mongoDB文档展示" class="headerlink" title="mongoDB文档展示"></a>mongoDB文档展示</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;_id&quot; : ObjectId(&quot;5d5684ae1599021e848d6736&quot;),</span><br><span class="line">    &quot;vehicleId&quot; : &quot;AP_4028b2b64fb20697014fdf7f65e44346&quot;,</span><br><span class="line">    &quot;list&quot; : [ </span><br><span class="line">        &#123;</span><br><span class="line">            &quot;groupName&quot; : &quot;发动机系统&quot;,</span><br><span class="line">            &quot;groupCode&quot; : &quot;1000&quot;,</span><br><span class="line">            &quot;programs&quot; : &#123;</span><br><span class="line">                &quot;vehicleId&quot; : &quot;AP_4028b2b64fb20697014fdf7f65e44346&quot;,</span><br><span class="line">                &quot;groupCode&quot; : &quot;1000&quot;,</span><br><span class="line">                &quot;list&quot; : [ </span><br><span class="line">                    &#123;</span><br><span class="line">                        &quot;baseItemName&quot; : &quot;清洗喷油嘴&quot;,</span><br><span class="line">                        &quot;baseItemCode&quot; : &quot;QX040001&quot;,</span><br><span class="line">                        &quot;itemDesc&quot; : &quot;20000km或24个月/次&quot;,</span><br><span class="line">                        &quot;judge&quot; : &quot;1&quot;</span><br><span class="line">                    &#125;, </span><br><span class="line">                    &#123;</span><br><span class="line">                        &quot;baseItemName&quot; : &quot;润滑系统清洁养护&quot;,</span><br><span class="line">                        &quot;baseItemCode&quot; : &quot;QX010001&quot;,</span><br><span class="line">                        &quot;itemDesc&quot; : &quot;5000km/次&quot;,</span><br><span class="line">                        &quot;judge&quot; : &quot;0&quot;</span><br><span class="line">                    &#125;, </span><br><span class="line">                    &#123;</span><br><span class="line">                        &quot;baseItemName&quot; : &quot;清洗节气门&quot;,</span><br><span class="line">                        &quot;baseItemCode&quot; : &quot;QX020001&quot;,</span><br><span class="line">                        &quot;itemDesc&quot; : &quot;20000km或24个月/次&quot;,</span><br><span class="line">                        &quot;judge&quot; : &quot;0&quot;</span><br><span class="line">                    &#125;, </span><br><span class="line">                    &#123;</span><br><span class="line">                        &quot;baseItemName&quot; : &quot;清洗进气系统&quot;,</span><br><span class="line">                        &quot;baseItemCode&quot; : &quot;QX010002&quot;,</span><br><span class="line">                        &quot;itemDesc&quot; : &quot;20000km/次&quot;,</span><br><span class="line">                        &quot;judge&quot; : &quot;0&quot;</span><br><span class="line">                    &#125;, </span><br><span class="line">                    &#123;</span><br><span class="line">                        &quot;baseItemName&quot; : &quot;火花塞&quot;,</span><br><span class="line">                        &quot;baseItemCode&quot; : &quot;BY036055&quot;,</span><br><span class="line">                        &quot;judge&quot; : &quot;0&quot;</span><br><span class="line">                    &#125;</span><br><span class="line">                ]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, </span><br><span class="line">        &#123;</span><br><span class="line">            &quot;groupName&quot; : &quot;常规保养&quot;,</span><br><span class="line">            &quot;groupCode&quot; : &quot;6000&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;_class&quot; : &quot;MaintenanceClassificationRespResult&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现代码-深层次查询"><a href="#实现代码-深层次查询" class="headerlink" title="实现代码:深层次查询"></a>实现代码:深层次查询</h3><p>深层次查询(方式一):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 通过构造函数andOperator()连接and条件,通过elemMatch()指定子级节点</span><br><span class="line">Query query = Query.query(new Criteria().andOperator(Criteria.where(&quot;vehicleId&quot;).is(vehicleId), Criteria.where(&quot;list&quot;).elemMatch(Criteria.where(&quot;groupCode&quot;).is(groupCode))));</span><br><span class="line"></span><br><span class="line">// findOne()仅返回匹配的第一个文档,此处需注意返回的为整个文档,若需要指定返回内容,需要使用原生API,findOne()第三个入参为文档表名</span><br><span class="line">MaintenanceClassificationRespResult result = mongoTemplate.findOne(query, MaintenanceClassificationRespResult.class, IEasyepcCode.EASYEPC_MONGODB_325021_325031);</span><br></pre></td></tr></table></figure>
+
+<p>深层次查询(方式二):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 通过.的形式指定子级节点</span><br><span class="line">Query query = new Query(Criteria.where(&quot;vehicleId&quot;).is(vehicleId).and(&quot;list.groupCode&quot;).is(groupCode));</span><br></pre></td></tr></table></figure>
+
+<p>深层次查询(方式三):</p>
+<p>此处可以参考博文:<a href="https://blog.csdn.net/congcong68/column/info/15995" target="_blank" rel="noopener">学习MongoDB 四:MongoDB查询</a></p>
+<h3 id="实现代码-深层次更新"><a href="#实现代码-深层次更新" class="headerlink" title="实现代码:深层次更新"></a>实现代码:深层次更新</h3><p>深层次更新:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(rollbackFor = Exception.class)</span><br><span class="line">public void updateJudgeForMaintenanceClassificationList(String vehicleId, String groupCode, String baseItemCode) &#123;</span><br><span class="line">    /*</span><br><span class="line">     * 由于MongoDB不支持多层占位(.$.)更新,所以需要通过代码逻辑确认第一层数组下标</span><br><span class="line">     * 需要先查询原两层结构</span><br><span class="line">     * updateFirst()第三个入参为文档表名</span><br><span class="line">     */</span><br><span class="line">    MaintenanceClassificationRespResult tempResult = queryMaintenanceClassificationByMongoDB(MaintenanceClassificationReqModel</span><br><span class="line">            .builder().vehicleId(vehicleId).build());</span><br><span class="line">    if (!Objects.isNull(tempResult)) &#123;</span><br><span class="line">        List&lt;MaintenanceClassificationRespList&gt; list = tempResult.getList();</span><br><span class="line">        for (int i = 0; i &lt; list.size(); i++) &#123;</span><br><span class="line">            MaintenanceClassificationRespList data = list.get(i);</span><br><span class="line">            if (groupCode.equals(data.getGroupCode())) &#123;</span><br><span class="line">                // 保养项目分类一致,更新其下保养项目明细</span><br><span class="line">                Query query = Query.query(new Criteria().andOperator(Criteria.where(&quot;vehicleId&quot;).is(vehicleId)</span><br><span class="line">                        , Criteria.where(&quot;list.programs.list.baseItemCode&quot;).is(baseItemCode)));</span><br><span class="line">                Update update = new Update();</span><br><span class="line">                update.set(&quot;list.&quot; + i + &quot;.programs.list.$.judge&quot;, IEasyepcCode.JUDGE_1);</span><br><span class="line">                UpdateResult updateResult = mongoTemplate.updateFirst(query, update, IEasyepcCode.EASYEPC_MONGODB_325021_325031);</span><br><span class="line">                log.info(&quot;mongoDB更新文档结果:&#123;&#125;&quot;, updateResult.toString());</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h3><p>Spring Data Mongodb默认不开启事务,若果需要开启,可以参考<a href="https://blog.csdn.net/zhang135123/article/details/86571278" target="_blank" rel="noopener">Spring Data Mongodb事务管理</a></p>
+
+        </div>
+        
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-08-20T09:02:49.904Z" itemprop="dateUpdated">2019-08-20 17:02:49</time>
+</span><br>
+
+
+        
+        转载注明出处，原文地址：<a href="/my-blog/2019/08/20/mongoDB结构文档多层次查询及更新/" target="_blank" rel="external">https://fishhunterfree.github.io/my-blog/2019/08/20/mongoDB结构文档多层次查询及更新/</a>
+        
+    </div>
+    <footer>
+        <a href="https://fishhunterfree.github.io/my-blog">
+            <img src="/my-blog/img/avatar.jpg" alt="FishHunter">
+            FishHunter
+        </a>
+    </footer>
+</blockquote>
+
+        
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/my-blog/tags/Mongodb/">Mongodb</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/my-blog/tags/Spring-Data-Mongodb/">Spring Data Mongodb</a></li></ul>
+
+            <div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/20/mongoDB结构文档多层次查询及更新/&title=《mongoDB结构文档多层次查询及更新》 — 鱼塘&source=本文记录Spring Data Mongodb中对mongoDB查询及更新的实现." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+        </div>
+        
+    </div>
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="prev">
+      <a href="/my-blog/2019/08/20/Spring-Async多线程使用/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Spring Async多线程使用</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="next">
+      <a href="/my-blog/2019/08/19/List结构数据组装成树结构实现方式/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">List结构数据组装成树结构实现方式</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+    
+        <div id="repo">
+    <div class="loading active"></div>
+    <div class="top clearfix">
+        <div class="avatar pull-left"></div>
+        <div class="content pull-left">
+            <p class="name"></p>
+            <p class="description"></p>
+        </div>
+    </div>
+    <ul class="bottom">
+        <li class="star">
+            <span class="icon icon-star"></span>
+            <span class="val">0</span>
+        </li>
+        <li class="fork">
+            <span class="icon icon-code-fork"></span>
+            <span class="val">0</span>
+        </li>
+        <li class="date">
+            <span class="icon icon-clock-o"></span>
+            <span class="val">0000-00-00</span>
+        </li>
+    </ul>
+    <a class="link" href=""></a>
+</div>
+    
+    
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用场景"><span class="post-toc-number">1.</span> <span class="post-toc-text">使用场景</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#技术点"><span class="post-toc-number">2.</span> <span class="post-toc-text">技术点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#mongoDB文档展示"><span class="post-toc-number">3.</span> <span class="post-toc-text">mongoDB文档展示</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现代码-深层次查询"><span class="post-toc-number">4.</span> <span class="post-toc-text">实现代码:深层次查询</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现代码-深层次更新"><span class="post-toc-number">5.</span> <span class="post-toc-text">实现代码:深层次更新</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#备注"><span class="post-toc-number">6.</span> <span class="post-toc-text">备注</span></a></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </aside>
+    
+</article>
+
+
+</div>
+
+    </main>
+    <footer class="footer ">
+    
+    <div class="top">
+        
+            <p>
+    <span>Links：</span>
+    
+    <span class="blogroll-item">
+        <a href="https://fishhunterfree.github.io/my-blog/" target="_blank">HOME</a>
+    </span>
+    
+</p>
+
+        
+    </div>
+    
+    <div class="bottom">
+        <p>
+            <span>
+                FishHunter &copy; 2017 - 2019
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/20/mongoDB结构文档多层次查询及更新/&title=《mongoDB结构文档多层次查询及更新》 — 鱼塘&source=本文记录Spring Data Mongodb中对mongoDB查询及更新的实现." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADK0lEQVR42u3awbLiMAwEwPf/P81e90KYkaGKiM6JIiFxm4Nijf/+4uPx5Li+8v9vkivbOyRnjw5sbGzsm7Afl8f1UJ4N7nqCrr9Prnz2q8SCjY2NvZWd3K4tM8kk5hN9XiyxsbGxsfNX//a318UsmTJsbGxs7NnQZwuSpOzNljTY2NjYv8zOC0MyiORszsupH+mlYWNjY389O09Fv//zR/JtbGxs7C9mP8rjPHydnW0L1QsFNjY29iJ22+4/KSfvWh60f8DTK7GxsbHXsfNylT84OXtOGt4NGxsbewU7b/HnsGTK8vu323SiicPGxsZexM4H1xa2WRFq/4x8yrCxsbF3s/MHzAbaJq3JxqD2uUUxw8bGxr4he/Zynw86X9LkmDYYeEPigY2Njf3F7NkLfYL8ROHJw4ZobNjY2Ngr2OebI08237RhcDKhRTaCjY2NfXP2bANl+0070PNVw4uyh42Njb2UPWvfty2kNjZom1nRlGFjY2MvYrfl4RNbZ2ZbhZJ21XD/KTY2Nvat2G0r/zzWTUpOXpyGk4KNjY29jp0XpFkTKnnKeQhRLFGwsbGxF7GP8uGgnMwa/dd3a0saNjY29i+wkyMvbyehQhvlzoIHbGxs7K3sZKmQt5ny9lDboppFxU+LHzY2NvYK9nlwexIzvGvS8yKHjY2NvYn9iVB2NgXnyKKBhY2Njb2InUet+SIkL0Vt0NuG0C/+DGxsbOxF7FlzPw+M28bTSdjctr2wsbGx785uX+tn7aQ2BmgLWz5B2NjY2PvY+VIhf8WfBbFtyWwbXn/tRdjY2Ni3Yp88pv1tu8CYLYeiZ2FjY2OvY8/KyayJP4sE2u1EL8otNjY29jp2W67yTTZtwfvEZp0X+5WwsbGxb8t+lMcs0M1b/3UnLI4ZivqGjY2NfSt2frRbanLYrJS+q8+PjY2NvYM9K0I5+F3h7snWn3pBgo2NjX1DdlsYZmUp2egzayG1bSlsbGxs7HaV00YI7RafOjDGxsbG/mF2G7K2EfJJsSzCA2xsbOx17DYAOOG9a7nS/iXY2NjYW9ltg+YkEr5u8edhwGxxgo2Njb2O/Q953Gej5wVK/AAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/fastclick.js?v=1.4.3"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/ios-orientationchange-fix.js?v=1.4.3"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/my-blog/js/method.js?v=1.4.3"></script>
+<script type="text/javascript" src="/my-blog/js/blog.js?v=1.4.3"></script>
+
+<!-- third-party -->
+
+
+    <script type="text/javascript">
+    (function() {
+
+        const origin = "FishHunterFree | my-blog"
+        let user, repo;
+        origin.replace(/(\S+)\s{0,1}\|\s{0,1}(\S+)/g, (...rest) => {
+            [user, repo] = [ rest[1], rest[2] ];
+        });
+        if (user && repo) {
+            const url = `//api.github.com/repos/${user}/${repo}?callback=?`;
+            $.getJSON(url, (data) => {
+                updateRepoInPage(data.data);
+            });
+        }
+
+        function updateRepoInPage(data) {
+            const {name, description, html_url: url, stargazers_count: stars, forks, owner: owner, updated_at: update} = data;
+            _loadAvatar(owner.avatar_url).then(avatarUrl => {
+                const avatarBg = `url(${avatarUrl})`;
+                const container = $('#repo');
+                container.click(() => {
+                    window.open(url);
+                });
+
+                //init
+                const loadingItem = container.find('.loading').hide();
+                const topItem = container.find('.top').addClass('active');
+                const bottomItem = container.find('.bottom').addClass('active');
+
+                //avatar
+                const avatarItem = container.find('.avatar');
+                const oldBg = avatarItem.css('background-image');
+                avatarItem.hover(() => {
+                    avatarItem.css('background-image', avatarBg);
+                }, () => {
+                    avatarItem.css('background-image', oldBg);
+                });
+
+                //repo-name
+                const nameItem = container.find('.name').html(name);
+
+                //description
+                const descriptionItem = container.find('.description').html(description);
+
+                //stars
+                const starItem = container.find('.star>.val').html(stars);
+
+                //forks
+                const forkItem = container.find('.fork>.val').html(forks);
+
+                //date
+                const formatDate = update.replace(/T.+/g, '');
+                const dateItem = container.find('.date>.val').html(formatDate);
+            });
+
+            function _loadAvatar(url) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        resolve(url);
+                    };
+                    img.src = url;
+                });
+            }
+
+        }
+
+    })();
+</script>
+
+
+
+
+
+<script type="text/javascript" src="/my-blog/js/plugins/local_search.js?v=1.4.3"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/my-blog/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+<script type="text/javascript" src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/leancloud_visitors.js?v=1.4.3"></script>
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
+
+
+    
+<script src="/my-blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/my-blog/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    
+    <title>Spring Async多线程使用 | 鱼塘 | 捕获游鱼，藏入吾塘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="Java,Spring,Async">
+    <link rel="shortcut icon" href="/my-blog/img/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/my-blog/css/style.css?v=1.4.3">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	false,
+            lv: JSON.parse('{"enable":true,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"codefine","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
+
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      
+      <img src="/my-blog/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/my-blog/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/my-blog/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">FishHunter</h5>
+          <a href="mailto:hydsxsy@126.com" title="hydsxsy@126.com" class="mail">
+            
+              <span>h</span>
+            
+              <span>y</span>
+            
+              <span>d</span>
+            
+              <span>s</span>
+            
+              <span>x</span>
+            
+              <span>s</span>
+            
+              <span>y</span>
+            
+              <span>@</span>
+            
+              <span>1</span>
+            
+              <span>2</span>
+            
+              <span>6</span>
+            
+              <span>.</span>
+            
+              <span>c</span>
+            
+              <span>o</span>
+            
+              <span>m</span>
+            
+          </a>
+        </hgroup>
+        
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/FishHunterFree" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
+            
+        </ul>
+        
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/my-blog/"  >
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                CATEGORIES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                TAGS
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/custom"  >
+                <i class="icon icon-lg icon-plus-square"></i>
+                CUSTOM
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>Spring Async多线程使用</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/my-blog/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">Spring Async多线程使用</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-20T06:43:25.000Z" itemprop="datePublished" class="page-time">
+  2019-08-20
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/Java/">Java</a></li></ul>
+
+            
+        </h5>
+        
+    </div>
+    
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left"/>
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-Spring-Async多线程使用"
+  class="post-article article-type-post" itemprop="blogPost">
+    <div class="post-card">
+        <h1 class="post-card-title">Spring Async多线程使用</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-20 14:43:25" datetime="2019-08-20T06:43:25.000Z"  itemprop="datePublished">2019-08-20</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/Java/">Java</a></li></ul>
+
+
+
+            
+	<span id="/my-blog/2019/08/20/Spring-Async多线程使用/" class="leancloud_visitors" data-flag-title="Spring Async多线程使用" title="Spring Async多线程使用">
+		
+			<i class="icon icon-eye"></i>
+		
+		<span class="leancloud-visitors-count"></span>
+	</span>
+ 
+
+            
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            
+            <p>本文记录Spring Async对Java多线程的支持</p>
+<a id="more"></a>
+
+<hr>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>Java在处理多线程时需要用到线程池及其相关的API,配置较为零散,学习成本较高.Spring提供了便捷的配置类来支持多线程的实现.</p>
+<h3 id="技术点"><a href="#技术点" class="headerlink" title="技术点"></a>技术点</h3><ul>
+<li>Java多线程</li>
+<li>Spring Async</li>
+</ul>
+<h3 id="Spring-Async配置类"><a href="#Spring-Async配置类" class="headerlink" title="Spring Async配置类"></a>Spring Async配置类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.scheduling.annotation.EnableAsync;</span><br><span class="line">import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;</span><br><span class="line"></span><br><span class="line">import java.util.concurrent.Executor;</span><br><span class="line">import java.util.concurrent.ThreadPoolExecutor;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 开启多线程操作，注解方式</span><br><span class="line"> * 在需要进行异步处理的方法上加上@Async注解</span><br><span class="line"> */</span><br><span class="line">@Configuration</span><br><span class="line">@EnableAsync</span><br><span class="line">public class AsyncConfig &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置线程池基本大小值, 线程池维护线程的最少数量</span><br><span class="line">     */</span><br><span class="line">    private int corePoolSize = 10;</span><br><span class="line">    /**</span><br><span class="line">     * 设置线程池最大值</span><br><span class="line">     */</span><br><span class="line">    private int maxPoolSize = 200;</span><br><span class="line">    /**</span><br><span class="line">     * 线程池所使用的缓冲队列大小</span><br><span class="line">     */</span><br><span class="line">    private int queueCapacity = 1024;</span><br><span class="line">    /**</span><br><span class="line">     * 配置线程最大空闲时间</span><br><span class="line">     */</span><br><span class="line">    private int keepAliveSeconds = 50000;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public Executor asyncExecutor() &#123;</span><br><span class="line">        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();</span><br><span class="line">        executor.setCorePoolSize(corePoolSize);</span><br><span class="line">        executor.setMaxPoolSize(maxPoolSize);</span><br><span class="line">        executor.setQueueCapacity(queueCapacity);</span><br><span class="line">        executor.setKeepAliveSeconds(keepAliveSeconds);</span><br><span class="line">        executor.setThreadNamePrefix(&quot;AsyncExecutor-&quot;);</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">         * rejection-policy：当pool已经达到max size的时候，如何处理新任务</span><br><span class="line">         * CALLER_RUNS：不在新线程中执行任务，而是由调用者所在的线程来执行</span><br><span class="line">         */</span><br><span class="line">        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());</span><br><span class="line">        executor.initialize();</span><br><span class="line">        return executor;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Spring-Async服务类-控制层"><a href="#Spring-Async服务类-控制层" class="headerlink" title="Spring Async服务类-控制层"></a>Spring Async服务类-控制层</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">import org.eureka.service.impl.AsyncService;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMethod;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.concurrent.ExecutionException;</span><br><span class="line">import java.util.concurrent.Future;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Description: 异步任务测试类</span><br><span class="line"> */</span><br><span class="line">@RestController</span><br><span class="line">public class AsyncController &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    private AsyncService asyncService;</span><br><span class="line"> </span><br><span class="line">    @RequestMapping(value = &quot;/hello&quot;,method = RequestMethod.GET)</span><br><span class="line">    public String testAsyncNoRetrun()&#123;</span><br><span class="line">        long start = System.currentTimeMillis();</span><br><span class="line">         asyncService.doNoReturn();</span><br><span class="line">         return String.format(&quot;任务执行成功,耗时&#123;%s&#125;&quot;, System.currentTimeMillis() - start);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @GetMapping(&quot;/hi&quot;)</span><br><span class="line">    public Map&lt;String, Object&gt; testAsyncReturn() throws ExecutionException, InterruptedException &#123;</span><br><span class="line">        long start = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();</span><br><span class="line">        List&lt;Future&lt;String&gt;&gt; futures = new ArrayList&lt;&gt;();</span><br><span class="line">        for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">            Future&lt;String&gt; future = asyncService.doReturn(i);</span><br><span class="line">            futures.add(future);</span><br><span class="line">        &#125;</span><br><span class="line">        /*</span><br><span class="line">         * 读取的时候,记得要批量读取不能单独读取,否则无法实现异步的效果</span><br><span class="line">         * 且需要注意:</span><br><span class="line">         * 异步方法和调用类不要在同一个类中</span><br><span class="line">         */</span><br><span class="line">        List&lt;String&gt; response = new ArrayList&lt;&gt;();</span><br><span class="line">        for (Future future : futures) &#123;</span><br><span class="line">            String string = (String) future.get();</span><br><span class="line">            response.add(string);</span><br><span class="line">        &#125;</span><br><span class="line">        map.put(&quot;data&quot;, response);</span><br><span class="line">        map.put(&quot;消耗时间&quot;, String.format(&quot;任务执行成功,耗时&#123;%s&#125;毫秒&quot;, System.currentTimeMillis() - start));</span><br><span class="line">        return map;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Spring-Async服务类-实现层"><a href="#Spring-Async服务类-实现层" class="headerlink" title="Spring Async服务类-实现层"></a>Spring Async服务类-实现层</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.scheduling.annotation.Async;</span><br><span class="line">import org.springframework.scheduling.annotation.AsyncResult;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line">import java.util.Date;</span><br><span class="line">import java.util.concurrent.Future;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Description: 异步任务测试类</span><br><span class="line"> */</span><br><span class="line">@Service</span><br><span class="line">public class AsyncService &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * TODO 处理无返回的异步任务</span><br><span class="line">     * @param</span><br><span class="line">     * @return void</span><br><span class="line">     * @throws</span><br><span class="line">     * @date 2019/8/20 16:34</span><br><span class="line">     **/</span><br><span class="line">    @Async</span><br><span class="line">    public void doNoReturn()&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            // 这个方法执行需要三秒</span><br><span class="line">            Thread.sleep(3000);</span><br><span class="line">            System.out.println(&quot;方法执行结束&quot; + new Date());</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * TODO 处理有返回的异步任务</span><br><span class="line">     * @param i</span><br><span class="line">     * @return java.util.concurrent.Future&lt;java.lang.String&gt;</span><br><span class="line">     * @throws</span><br><span class="line">     * @date 2019/8/20 16:35</span><br><span class="line">     **/</span><br><span class="line">    @Async</span><br><span class="line">    public Future&lt;String&gt; doReturn(int i)&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            // 这个方法需要调用500毫秒</span><br><span class="line">            Thread.sleep(500);</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        // 消息汇总</span><br><span class="line">        return new AsyncResult&lt;&gt;(String.format(&quot;这个是第&#123;%s&#125;个异步调用的证书&quot;, i));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+        
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-08-20T08:45:29.011Z" itemprop="dateUpdated">2019-08-20 16:45:29</time>
+</span><br>
+
+
+        
+        转载注明出处，原文地址：<a href="/my-blog/2019/08/20/Spring-Async多线程使用/" target="_blank" rel="external">https://fishhunterfree.github.io/my-blog/2019/08/20/Spring-Async多线程使用/</a>
+        
+    </div>
+    <footer>
+        <a href="https://fishhunterfree.github.io/my-blog">
+            <img src="/my-blog/img/avatar.jpg" alt="FishHunter">
+            FishHunter
+        </a>
+    </footer>
+</blockquote>
+
+        
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/my-blog/tags/Async/">Async</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/my-blog/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/my-blog/tags/Spring/">Spring</a></li></ul>
+
+            <div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/20/Spring-Async多线程使用/&title=《Spring Async多线程使用》 — 鱼塘&source=本文记录Spring Async对Java多线程的支持" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+        </div>
+        
+    </div>
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="next">
+      <a href="/my-blog/2019/08/20/mongoDB结构文档多层次查询及更新/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">mongoDB结构文档多层次查询及更新</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+    
+        <div id="repo">
+    <div class="loading active"></div>
+    <div class="top clearfix">
+        <div class="avatar pull-left"></div>
+        <div class="content pull-left">
+            <p class="name"></p>
+            <p class="description"></p>
+        </div>
+    </div>
+    <ul class="bottom">
+        <li class="star">
+            <span class="icon icon-star"></span>
+            <span class="val">0</span>
+        </li>
+        <li class="fork">
+            <span class="icon icon-code-fork"></span>
+            <span class="val">0</span>
+        </li>
+        <li class="date">
+            <span class="icon icon-clock-o"></span>
+            <span class="val">0000-00-00</span>
+        </li>
+    </ul>
+    <a class="link" href=""></a>
+</div>
+    
+    
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用场景"><span class="post-toc-number">1.</span> <span class="post-toc-text">使用场景</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#技术点"><span class="post-toc-number">2.</span> <span class="post-toc-text">技术点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Spring-Async配置类"><span class="post-toc-number">3.</span> <span class="post-toc-text">Spring Async配置类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Spring-Async服务类-控制层"><span class="post-toc-number">4.</span> <span class="post-toc-text">Spring Async服务类-控制层</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Spring-Async服务类-实现层"><span class="post-toc-number">5.</span> <span class="post-toc-text">Spring Async服务类-实现层</span></a></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </aside>
+    
+</article>
+
+
+</div>
+
+    </main>
+    <footer class="footer ">
+    
+    <div class="top">
+        
+            <p>
+    <span>Links：</span>
+    
+    <span class="blogroll-item">
+        <a href="https://fishhunterfree.github.io/my-blog/" target="_blank">HOME</a>
+    </span>
+    
+</p>
+
+        
+    </div>
+    
+    <div class="bottom">
+        <p>
+            <span>
+                FishHunter &copy; 2017 - 2019
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/20/Spring-Async多线程使用/&title=《Spring Async多线程使用》 — 鱼塘&source=本文记录Spring Async对Java多线程的支持" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsElEQVR42u3aUW7jMAwE0Nz/0t0DFLZnKMnNAs9fRZPaeipgEkN9PvH18+u6+vT375N7Xj3l/rnbLjw8PLzlpd8/+B5wv9yrpyebkm8EHh4e3ju85Hb3j5nx8iJ09fODBQ8PD++LeUmRuC8zCRsPDw/vf+Qlj0+iirxpxsPDw/tOXhJGtMva1Xy3gS8eHh7ead5KO/tXPx+Z7+Hh4eEtT9XzF+4seM0LwHC1eHh4eAd4bdAwCwuSkCJpxGfrxMPDwzvHu39N5yHFDNzGGcVBLjw8PLwDvHxMlcesyWAsH6TlW/9pl46Hh4c34iWLyw9Xzf42jzPyARseHh7eO7yVQHYlMkg2aFhs8PDw8Lby8kXnjfKsGLQDsGjwhoeHh3eAl79822FVi4ma41EJwcPDwzvHS17EeRu96zhCHvI+xLh4eHh4h3n54vLB/2zklmzWQ6iBh4eHt5XXxgFteZjB2nj3sizh4eHhHeC1bWvyyNmBgJUxW3uoCw8PD2+dt/c4VNtktwcX6iADDw8P7wCvbZFnhwZaQFuEikgXDw8Pb5k3wySv9XaUNSskdZiLh4eHt8A7MbjKg4xZU16sCg8PD+8AL49i27FWG0zkA628VODh4eG9w1tpf9u7tUcE8n8JHh4e3mle8rKeDatmi1s5QPAQ4+Lh4eEd4LVxw4YTXpvKTzTTw8PDwzvMyz9tt2k2VBtuAR4eHt4rvDw8TR75ZjnBw8PDO837Ka+VYrCeMddDMjw8PLwDvJWRVd4i541yu62b53t4eHh4Ma+99XrUe/+d9sBWPd/Dw8PD28RbaXbzApB/Z3PWgoeHh/envJUAYvbqb0doeHh4eN/GS5Cz6OF+VbMjBXh4eHjnePmCkghg5QhXe8+H4oSHh4d3gDfrS/O4oQ1k2+3bcOHh4eGlvH8HdxbbZ0zepgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/fastclick.js?v=1.4.3"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/ios-orientationchange-fix.js?v=1.4.3"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/my-blog/js/method.js?v=1.4.3"></script>
+<script type="text/javascript" src="/my-blog/js/blog.js?v=1.4.3"></script>
+
+<!-- third-party -->
+
+
+    <script type="text/javascript">
+    (function() {
+
+        const origin = "FishHunterFree | my-blog"
+        let user, repo;
+        origin.replace(/(\S+)\s{0,1}\|\s{0,1}(\S+)/g, (...rest) => {
+            [user, repo] = [ rest[1], rest[2] ];
+        });
+        if (user && repo) {
+            const url = `//api.github.com/repos/${user}/${repo}?callback=?`;
+            $.getJSON(url, (data) => {
+                updateRepoInPage(data.data);
+            });
+        }
+
+        function updateRepoInPage(data) {
+            const {name, description, html_url: url, stargazers_count: stars, forks, owner: owner, updated_at: update} = data;
+            _loadAvatar(owner.avatar_url).then(avatarUrl => {
+                const avatarBg = `url(${avatarUrl})`;
+                const container = $('#repo');
+                container.click(() => {
+                    window.open(url);
+                });
+
+                //init
+                const loadingItem = container.find('.loading').hide();
+                const topItem = container.find('.top').addClass('active');
+                const bottomItem = container.find('.bottom').addClass('active');
+
+                //avatar
+                const avatarItem = container.find('.avatar');
+                const oldBg = avatarItem.css('background-image');
+                avatarItem.hover(() => {
+                    avatarItem.css('background-image', avatarBg);
+                }, () => {
+                    avatarItem.css('background-image', oldBg);
+                });
+
+                //repo-name
+                const nameItem = container.find('.name').html(name);
+
+                //description
+                const descriptionItem = container.find('.description').html(description);
+
+                //stars
+                const starItem = container.find('.star>.val').html(stars);
+
+                //forks
+                const forkItem = container.find('.fork>.val').html(forks);
+
+                //date
+                const formatDate = update.replace(/T.+/g, '');
+                const dateItem = container.find('.date>.val').html(formatDate);
+            });
+
+            function _loadAvatar(url) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        resolve(url);
+                    };
+                    img.src = url;
+                });
+            }
+
+        }
+
+    })();
+</script>
+
+
+
+
+
+<script type="text/javascript" src="/my-blog/js/plugins/local_search.js?v=1.4.3"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/my-blog/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+<script type="text/javascript" src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/leancloud_visitors.js?v=1.4.3"></script>
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
+
+
+    
+<script src="/my-blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/my-blog/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

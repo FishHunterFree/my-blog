@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    
+    <title>Spring AOP日志记录实现 | 鱼塘 | 捕获游鱼，藏入吾塘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="Java,Spring">
+    <link rel="shortcut icon" href="/my-blog/img/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/my-blog/css/style.css?v=1.4.3">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	false,
+            lv: JSON.parse('{"enable":true,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"codefine","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
+
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      
+      <img src="/my-blog/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/my-blog/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/my-blog/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">FishHunter</h5>
+          <a href="mailto:hydsxsy@126.com" title="hydsxsy@126.com" class="mail">
+            
+              <span>h</span>
+            
+              <span>y</span>
+            
+              <span>d</span>
+            
+              <span>s</span>
+            
+              <span>x</span>
+            
+              <span>s</span>
+            
+              <span>y</span>
+            
+              <span>@</span>
+            
+              <span>1</span>
+            
+              <span>2</span>
+            
+              <span>6</span>
+            
+              <span>.</span>
+            
+              <span>c</span>
+            
+              <span>o</span>
+            
+              <span>m</span>
+            
+          </a>
+        </hgroup>
+        
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/FishHunterFree" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
+            
+        </ul>
+        
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/my-blog/"  >
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                CATEGORIES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                TAGS
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/my-blog/custom"  >
+                <i class="icon icon-lg icon-plus-square"></i>
+                CUSTOM
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>Spring AOP日志记录实现</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/my-blog/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">Spring AOP日志记录实现</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-19T08:26:26.000Z" itemprop="datePublished" class="page-time">
+  2019-08-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/Java/">Java</a></li></ul>
+
+            
+        </h5>
+        
+    </div>
+    
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left"/>
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-Spring-AOP日志记录实现"
+  class="post-article article-type-post" itemprop="blogPost">
+    <div class="post-card">
+        <h1 class="post-card-title">Spring AOP日志记录实现</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-19 16:26:26" datetime="2019-08-19T08:26:26.000Z"  itemprop="datePublished">2019-08-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/my-blog/categories/Java/">Java</a></li></ul>
+
+
+
+            
+	<span id="/my-blog/2019/08/19/Spring-AOP日志记录实现/" class="leancloud_visitors" data-flag-title="Spring AOP日志记录实现" title="Spring AOP日志记录实现">
+		
+			<i class="icon icon-eye"></i>
+		
+		<span class="leancloud-visitors-count"></span>
+	</span>
+ 
+
+            
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            
+            <p>本文记录Spring AOP日志记录实现.</p>
+<a id="more"></a>
+
+<hr>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>通过切面编程,为Rest请求记录入参及回参的日志,同时对于整合链路跟踪的项目,记录请求Trace信息</p>
+<h3 id="技术点"><a href="#技术点" class="headerlink" title="技术点"></a>技术点</h3><ul>
+<li>@Aspect及其派生的注解使用</li>
+<li>获取实际客户端Ip工具类</li>
+<li>链路跟踪相关工具类</li>
+</ul>
+<h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><p>链路跟踪Pom依赖:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 链路跟踪模块 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-sleuth&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>日志记录切面类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br></pre></td><td class="code"><pre><span class="line">import brave.Span;</span><br><span class="line">import brave.Tracer;</span><br><span class="line">import com.alibaba.fastjson.JSON;</span><br><span class="line">import com.alibaba.fastjson.JSONObject;</span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line">import org.aspectj.lang.annotation.Around;</span><br><span class="line">import org.aspectj.lang.annotation.Aspect;</span><br><span class="line">import org.aspectj.lang.annotation.Pointcut;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line">import org.springframework.web.context.request.RequestAttributes;</span><br><span class="line">import org.springframework.web.context.request.RequestContextHolder;</span><br><span class="line">import org.springframework.web.context.request.ServletRequestAttributes;</span><br><span class="line">import org.springframework.web.multipart.MultipartFile;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletRequest;</span><br><span class="line">import javax.servlet.ServletResponse;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.Objects;</span><br><span class="line">import java.util.UUID;</span><br><span class="line">/**</span><br><span class="line"> * TODO 日志记录切面类</span><br><span class="line"> **/</span><br><span class="line">@Component</span><br><span class="line">@Aspect </span><br><span class="line">@Slf4j</span><br><span class="line">public class LoggerAspect &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    Tracer tracer;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * TODO 指定切点位置,主要针对RestController及Controller修饰的对外接口</span><br><span class="line">     * @param</span><br><span class="line">     * @return void</span><br><span class="line">     * @throws</span><br><span class="line">     * @date 2019/8/19 16:45</span><br><span class="line">     **/</span><br><span class="line">    @Pointcut(&quot;@within(org.springframework.web.bind.annotation.RestController) || @within(org.springframework.stereotype.Controller)&quot;)</span><br><span class="line">    public void annotationController() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * TODO 此处使用环绕注解,通过joinPoint.proceed()获取返回结果,需要注意点为异常处理</span><br><span class="line">     * @param joinPoint</span><br><span class="line">     * @return java.lang.Object</span><br><span class="line">     * @throws</span><br><span class="line">     * @date 2019/8/19 16:47</span><br><span class="line">     **/</span><br><span class="line">    @Around(value = &quot;annotationController()&quot;)</span><br><span class="line">    public Object showBeginLog(ProceedingJoinPoint joinPoint) throws Throwable &#123;</span><br><span class="line">        // 开始时间</span><br><span class="line">        Long startTime = System.currentTimeMillis();</span><br><span class="line">        String traceId = null;</span><br><span class="line">        Object result = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();</span><br><span class="line">            if (requestAttributes instanceof ServletRequestAttributes) &#123;</span><br><span class="line">                ServletRequestAttributes servletRa = (ServletRequestAttributes) requestAttributes;</span><br><span class="line">                if (Objects.nonNull(servletRa)) &#123;</span><br><span class="line">                    traceId = extractTraceId(this.tracer);</span><br><span class="line">                    HttpServletRequest request = servletRa.getRequest();</span><br><span class="line">                    StringBuffer requestURL = request.getRequestURL();</span><br><span class="line">                    String requestURI = request.getRequestURI();</span><br><span class="line">                    String method = request.getMethod();</span><br><span class="line">                    String ipAddress = getIpAddr(request);</span><br><span class="line"></span><br><span class="line">                    //封装入参Request列表</span><br><span class="line">                    Map&lt;String, String[]&gt; parameterMap = request.getParameterMap();</span><br><span class="line">                    // 封装入参Body列表</span><br><span class="line">                    String requestStr = getRequestParam(joinPoint);</span><br><span class="line">                    requestStr = parameterHandle(requestStr, 10000);</span><br><span class="line"></span><br><span class="line">                    // url</span><br><span class="line">                    log.info(&quot;traceId=&#123;&#125;，请求的url=&#123;&#125;&quot;, traceId, requestURL);</span><br><span class="line">                    // uri</span><br><span class="line">                    log.info(&quot;traceId=&#123;&#125;，请求的uri=&#123;&#125;&quot;, traceId, requestURI);</span><br><span class="line">                    // method</span><br><span class="line">                    log.info(&quot;traceId=&#123;&#125;，请求method=&#123;&#125;&quot;, traceId, method);</span><br><span class="line">                    // ip</span><br><span class="line">                    log.info(&quot;traceId=&#123;&#125;，请求源ip=&#123;&#125;&quot;, traceId, ipAddress);</span><br><span class="line">                    // class_method</span><br><span class="line">                    log.info(&quot;traceId=&#123;&#125;，请求方法class_method=&#123;&#125;&quot;, traceId,</span><br><span class="line">                            joinPoint.getSignature().getDeclaringTypeName() + &quot;_&quot; + joinPoint.getSignature().getName());</span><br><span class="line">                    // args[]</span><br><span class="line">                    log.info(&quot;traceId=&#123;&#125;，请求参数args=&#123;&#125;&quot;, traceId, JSON.toJSONString(parameterMap));</span><br><span class="line">                    // body</span><br><span class="line">                    log.info(&quot;traceId=&#123;&#125;，请求体body=&#123;&#125;&quot;, traceId, requestStr);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                    /*</span><br><span class="line">                     * 执行完方法的返回值：调用proceed()方法，就会触发切入点方法执行</span><br><span class="line">                     * result的值就是被拦截方法的返回值</span><br><span class="line">                     * 需要注意,当此方法之前抛出异常,会导致接口无法被执行,对之前代码可能出现的异常,一定需要处理并不再向上抛出</span><br><span class="line">                     */</span><br><span class="line">                    result = joinPoint.proceed();</span><br><span class="line"></span><br><span class="line">                    return result;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            log.info(&quot;traceId=&quot; + traceId + &quot;，异常信息exception=&quot;, e);</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            // 执行时间</span><br><span class="line">            long handleTime = System.currentTimeMillis() - startTime;</span><br><span class="line">            String responseStr = result == null ? &quot;无&quot; : JSON.toJSONString(result);</span><br><span class="line">            responseStr = parameterHandle(responseStr, 10000);</span><br><span class="line">            log.info(&quot;traceId=&#123;&#125;，耗时=&#123;&#125;ms,响应结果response=&#123;&#125;&quot;, traceId, handleTime, responseStr);</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * @param paramStr</span><br><span class="line">     * @param strlength</span><br><span class="line">     * @return</span><br><span class="line">     * @Description : 参数处理，超过指定长度字符的，只显示1000...</span><br><span class="line">     */</span><br><span class="line">    private String parameterHandle(String paramStr, int strlength) &#123;</span><br><span class="line">        if (paramStr.length() &gt; strlength) &#123;</span><br><span class="line">            paramStr = paramStr.substring(0, 1000) + &quot;...&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        if (paramStr.length() &gt; 10) &#123;</span><br><span class="line">            paramStr = &quot;[&quot; + paramStr + &quot;]&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        return paramStr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /***</span><br><span class="line">     * @Description : 获取请求参数</span><br><span class="line">     * @param point</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private String getRequestParam(ProceedingJoinPoint point) &#123;</span><br><span class="line">        Object[] paramsArray = point.getArgs();</span><br><span class="line">        String requestStr = argsArrayToString(paramsArray);</span><br><span class="line">        return requestStr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 请求参数拼装,由于point.getArgs()获得的参数包含ServletRequest,ServletResponse等参数,需要在Json转换处理时特别注意</span><br><span class="line">     *</span><br><span class="line">     * @param args</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private String argsArrayToString(Object[] args) &#123;</span><br><span class="line">        Object[] paramsArray = new Object[args.length];</span><br><span class="line">        for (int i = 0; i &lt; args.length; i++) &#123;</span><br><span class="line">            if (args[i] instanceof ServletRequest || args[i] instanceof ServletResponse || args[i] instanceof MultipartFile) &#123;</span><br><span class="line">                // ServletRequest不能序列化，从入参里排除，否则报异常：java.lang.IllegalStateException: It is illegal to call this method if the current request is not in asynchronous mode (i.e. isAsyncStarted() returns false)</span><br><span class="line">                // ServletResponse不能序列化 从入参里排除，否则报异常：java.lang.IllegalStateException: getOutputStream() has already been called for this response</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            paramsArray[i] = args[i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String params = &quot;&quot;;</span><br><span class="line">        if (paramsArray != null &amp;&amp; paramsArray.length &gt; 0) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                params = JSONObject.toJSONString(paramsArray);</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                params = paramsArray.toString();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return params.trim();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 记录浏览器访问路径,仅当上下游项目开启链路跟踪时可用</span><br><span class="line">     *</span><br><span class="line">     * @param tracer</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String extractTraceId(Tracer tracer) &#123;</span><br><span class="line">        Span span = tracer.currentSpan();</span><br><span class="line">        Long parentId = span.context().parentIdAsLong();</span><br><span class="line">        String traceId = (span == null ? null : String.valueOf(parentId));</span><br><span class="line">        if (traceId == null || traceId.isEmpty()) &#123;</span><br><span class="line">            traceId = &quot;[NoClientTraceId]&quot; + UUID.randomUUID().toString();</span><br><span class="line">        &#125;</span><br><span class="line">        return traceId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取客户端IP</span><br><span class="line">     * @param request</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getIpAddr(HttpServletRequest request) &#123;</span><br><span class="line">        String ip = request.getHeader(&quot;x-forwarded-for&quot;);</span><br><span class="line"></span><br><span class="line">        if (ip == null || ip.length() == 0 || &quot;unknown&quot;.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            ip = request.getHeader(&quot;Proxy-Client-IP&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        if (ip == null || ip.length() == 0 || &quot;unknown&quot;.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            ip = request.getHeader(&quot;WL-Proxy-Client-IP&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        if (ip == null || ip.length() == 0 || &quot;unknown&quot;.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            ip = request.getRemoteAddr();</span><br><span class="line">        &#125;</span><br><span class="line">        if (ip != null &amp;&amp; ip.equalsIgnoreCase(&quot;0:0:0:0:0:0:0:1&quot;)) &#123;</span><br><span class="line">            ip = &quot;127.0.0.1&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        /*</span><br><span class="line">         * 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照&apos;,&apos;分割</span><br><span class="line">         * &quot;***.***.***.***&quot;.length() = 15</span><br><span class="line">         */</span><br><span class="line">        if(ip!=null &amp;&amp; ip.length()&gt;15)&#123;</span><br><span class="line">            if(ip.indexOf(&quot;,&quot;)&gt;0)&#123;</span><br><span class="line">                ip = ip.substring(0,ip.indexOf(&quot;,&quot;));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return ip;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+        
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-08-19T09:05:09.893Z" itemprop="dateUpdated">2019-08-19 17:05:09</time>
+</span><br>
+
+
+        
+        转载注明出处，原文地址：<a href="/my-blog/2019/08/19/Spring-AOP日志记录实现/" target="_blank" rel="external">https://fishhunterfree.github.io/my-blog/2019/08/19/Spring-AOP日志记录实现/</a>
+        
+    </div>
+    <footer>
+        <a href="https://fishhunterfree.github.io/my-blog">
+            <img src="/my-blog/img/avatar.jpg" alt="FishHunter">
+            FishHunter
+        </a>
+    </footer>
+</blockquote>
+
+        
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/my-blog/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/my-blog/tags/Spring/">Spring</a></li></ul>
+
+            <div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/19/Spring-AOP日志记录实现/&title=《Spring AOP日志记录实现》 — 鱼塘&source=本文记录Spring AOP日志记录实现." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+        </div>
+        
+    </div>
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="prev">
+      <a href="/my-blog/2019/08/19/List结构数据组装成树结构实现方式/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">List结构数据组装成树结构实现方式</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="next">
+      <a href="/my-blog/2019/08/19/Spring-Boot下动态配置文件与Enum的结合使用/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Spring Boot下动态配置文件与Enum的结合使用</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+    
+        <div id="repo">
+    <div class="loading active"></div>
+    <div class="top clearfix">
+        <div class="avatar pull-left"></div>
+        <div class="content pull-left">
+            <p class="name"></p>
+            <p class="description"></p>
+        </div>
+    </div>
+    <ul class="bottom">
+        <li class="star">
+            <span class="icon icon-star"></span>
+            <span class="val">0</span>
+        </li>
+        <li class="fork">
+            <span class="icon icon-code-fork"></span>
+            <span class="val">0</span>
+        </li>
+        <li class="date">
+            <span class="icon icon-clock-o"></span>
+            <span class="val">0000-00-00</span>
+        </li>
+    </ul>
+    <a class="link" href=""></a>
+</div>
+    
+    
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用场景"><span class="post-toc-number">1.</span> <span class="post-toc-text">使用场景</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#技术点"><span class="post-toc-number">2.</span> <span class="post-toc-text">技术点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现代码"><span class="post-toc-number">3.</span> <span class="post-toc-text">实现代码</span></a></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </aside>
+    
+</article>
+
+
+</div>
+
+    </main>
+    <footer class="footer ">
+    
+    <div class="top">
+        
+            <p>
+    <span>Links：</span>
+    
+    <span class="blogroll-item">
+        <a href="https://fishhunterfree.github.io/my-blog/" target="_blank">HOME</a>
+    </span>
+    
+</p>
+
+        
+    </div>
+    
+    <div class="bottom">
+        <p>
+            <span>
+                FishHunter &copy; 2017 - 2019
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishhunterfree.github.io/my-blog/2019/08/19/Spring-AOP日志记录实现/&title=《Spring AOP日志记录实现》 — 鱼塘&source=本文记录Spring AOP日志记录实现." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsElEQVR42u3aO3IjMQwFQN3/0vYB1uI8fKhV0BO5VPIQzYCAAL5e8fNzfN59s/f5v985f77w4OHh4V0I/Rzc+T1JoGfeOZ6HFfHw8PCu8c5BnMOtvi0J8bx6IXng4eHhfRlvfqCfP8/XwsPDw/tmXm87Jo0MPDw8vO/kJUVt3ko4F99JidzbLDw8PLzP8PIp0vf8fWW+h4eHhzeequdP3mg4r54P1aKo8PDw8C7wJgVu9SpAfvQn5XihsMbDw8Nb5U3Cysvc3XSSbyseHh7eDV5+Zao6xKpeHaiO3HobjYeHhzfnVYf01cbEZGA2GZK9Lanx8PDwlnjJi/Lztte2qOax5p0IPDw8vCVevny1lXC7sfuwLh4eHt413uRQ7t13yhNMtf3x2s05eHh4eEXeQ8Eal8h5ayNvMSctEjw8PLwbvPzo3xrw58d6kgxGUz48PDy8Aa/aCOiN8/MSudeJHeUTPDw8vOKv9d6re9cLehvUK+7x8PDwbvCqI6V5WyFvOlyh4uHh4V1LEnkzYlJMT8B50sLDw8Pb5eX/NimaE1jvqsFDmY6Hh4d3jdcbgFWH9/kmbm0fHh4e3j3evICelN33tgMPDw/vM7z8ukA13F7zImlSRL8Y8PDw8FZ55QM3DmLS2sir4ldveTw8PLwWrxdo9NJWCZ6X7+XJHh4eHt4Sb146V69MzVNUoaDHw8PDu8Crtk2r9WpeBOdN5F4SwsPDw9vi/RSf3gBs8rbJgA0PDw/vBq964G5dluolg0mhj4eHh7fL6yWDeTpJ2hMLpTYeHh7eNd5uK6HXwJ0UylGXBQ8PD+/jvF4bd1JkV1PCH9/Bw8PD+6+8JJQkuOr/5g2RtbyHh4eHF/CSIHpBV7dmssVvEwMeHh7eKm/0U79VXucXBXrJpjnfw8PDw3vm/QINxNpPdvJ9KAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/fastclick.js?v=1.4.3"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/ios-orientationchange-fix.js?v=1.4.3"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/my-blog/js/method.js?v=1.4.3"></script>
+<script type="text/javascript" src="/my-blog/js/blog.js?v=1.4.3"></script>
+
+<!-- third-party -->
+
+
+    <script type="text/javascript">
+    (function() {
+
+        const origin = "FishHunterFree | my-blog"
+        let user, repo;
+        origin.replace(/(\S+)\s{0,1}\|\s{0,1}(\S+)/g, (...rest) => {
+            [user, repo] = [ rest[1], rest[2] ];
+        });
+        if (user && repo) {
+            const url = `//api.github.com/repos/${user}/${repo}?callback=?`;
+            $.getJSON(url, (data) => {
+                updateRepoInPage(data.data);
+            });
+        }
+
+        function updateRepoInPage(data) {
+            const {name, description, html_url: url, stargazers_count: stars, forks, owner: owner, updated_at: update} = data;
+            _loadAvatar(owner.avatar_url).then(avatarUrl => {
+                const avatarBg = `url(${avatarUrl})`;
+                const container = $('#repo');
+                container.click(() => {
+                    window.open(url);
+                });
+
+                //init
+                const loadingItem = container.find('.loading').hide();
+                const topItem = container.find('.top').addClass('active');
+                const bottomItem = container.find('.bottom').addClass('active');
+
+                //avatar
+                const avatarItem = container.find('.avatar');
+                const oldBg = avatarItem.css('background-image');
+                avatarItem.hover(() => {
+                    avatarItem.css('background-image', avatarBg);
+                }, () => {
+                    avatarItem.css('background-image', oldBg);
+                });
+
+                //repo-name
+                const nameItem = container.find('.name').html(name);
+
+                //description
+                const descriptionItem = container.find('.description').html(description);
+
+                //stars
+                const starItem = container.find('.star>.val').html(stars);
+
+                //forks
+                const forkItem = container.find('.fork>.val').html(forks);
+
+                //date
+                const formatDate = update.replace(/T.+/g, '');
+                const dateItem = container.find('.date>.val').html(formatDate);
+            });
+
+            function _loadAvatar(url) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        resolve(url);
+                    };
+                    img.src = url;
+                });
+            }
+
+        }
+
+    })();
+</script>
+
+
+
+
+
+<script type="text/javascript" src="/my-blog/js/plugins/local_search.js?v=1.4.3"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/my-blog/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+<script type="text/javascript" src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+<script type="text/javascript" src="/my-blog/js/plugins/leancloud_visitors.js?v=1.4.3"></script>
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
+
+
+    
+<script src="/my-blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/my-blog/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

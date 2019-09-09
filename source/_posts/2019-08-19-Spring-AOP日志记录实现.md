@@ -144,6 +144,7 @@ public class LoggerAspect {
             }
         } catch (Exception e) {
             log.info("traceId=" + traceId + "，异常信息exception=", e);
+			throw e;
         } finally {
             // 执行时间
             long handleTime = System.currentTimeMillis() - startTime;

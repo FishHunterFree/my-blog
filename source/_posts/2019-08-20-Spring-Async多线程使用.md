@@ -128,7 +128,7 @@ public class AsyncController {
         /*
          * 读取的时候,记得要批量读取不能单独读取,否则无法实现异步的效果
          * 且需要注意:
-         * 异步方法和调用类不要在同一个类中
+         * 异步方法调用一定需要通过Spring代理,@Async和@Transactional注解类似,只有在代理模式下生效
          */
         List<String> response = new ArrayList<>();
         for (Future future : futures) {

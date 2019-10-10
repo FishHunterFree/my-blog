@@ -108,3 +108,5 @@ feign.client.config:
 
 [Spring Cloud OpenFeign详解](https://blog.csdn.net/taiyangdao/article/details/81359394)
 
+[Spring Cloud系列之Feign的常见问题总结解](https://www.cnblogs.com/liaojie970/p/9004219.html)
+

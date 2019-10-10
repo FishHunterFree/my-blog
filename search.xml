@@ -3,6 +3,84 @@
   
     
     <entry>
+      <title><![CDATA[将Spring Boot 默认的Jackson框架转换为Fastjson]]></title>
+      <url>/my-blog/2019/09/26/%E5%B0%86Spring-Boot-%E9%BB%98%E8%AE%A4%E7%9A%84Jackson%E6%A1%86%E6%9E%B6%E8%BD%AC%E6%8D%A2%E4%B8%BAFastjson/</url>
+      <content type="html"><![CDATA[<p>本文记录将Spring Boot 默认的Jackson框架转换为Fastjson的实现方式及注意事项</p>
+<a id="more"></a>
+
+<hr>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>在用Feign Client 接口调用，由于Jackson对null等特殊值处理存在异常，故改用Fastjson解析数据</p>
+<h3 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h3><p>1.增加文件FeignConfig，注入Bean，修改默认Feign默认的解析方式</p>
+<p>2.由于Fastjson1.2.28后，增加了对Content-type验证，故添加多种MediaType</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class FeignConfig &#123;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public ResponseEntityDecoder feignDecoder() &#123;</span><br><span class="line">        HttpMessageConverter fastJsonConverter = createFastJsonConverter();</span><br><span class="line">        ObjectFactory&lt;HttpMessageConverters&gt; objectFactory = () -&gt; new HttpMessageConverters(fastJsonConverter);</span><br><span class="line">        return new ResponseEntityDecoder(new SpringDecoder(objectFactory));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public SpringEncoder feignEncoder()&#123;</span><br><span class="line">        HttpMessageConverter fastJsonConverter = createFastJsonConverter();</span><br><span class="line">        ObjectFactory&lt;HttpMessageConverters&gt; objectFactory = () -&gt; new HttpMessageConverters(fastJsonConverter);</span><br><span class="line">        return new SpringEncoder(objectFactory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private HttpMessageConverter createFastJsonConverter() &#123;</span><br><span class="line"></span><br><span class="line">        //创建fastJson消息转换器</span><br><span class="line">        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();</span><br><span class="line"></span><br><span class="line">        //升级最新版本需加=============================================================</span><br><span class="line">        List&lt;MediaType&gt; supportedMediaTypes = new ArrayList&lt;&gt;();</span><br><span class="line">        supportedMediaTypes.add(MediaType.APPLICATION_JSON);</span><br><span class="line">        supportedMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);</span><br><span class="line">        supportedMediaTypes.add(MediaType.APPLICATION_ATOM_XML);</span><br><span class="line">        supportedMediaTypes.add(MediaType.APPLICATION_FORM_URLENCODED);</span><br><span class="line">        supportedMediaTypes.add(MediaType.APPLICATION_OCTET_STREAM);</span><br><span class="line">        supportedMediaTypes.add(MediaType.APPLICATION_PDF);</span><br><span class="line">        supportedMediaTypes.add(MediaType.APPLICATION_RSS_XML);</span><br><span class="line">        supportedMediaTypes.add(MediaType.APPLICATION_XHTML_XML);</span><br><span class="line">        supportedMediaTypes.add(MediaType.APPLICATION_XML);</span><br><span class="line">        supportedMediaTypes.add(MediaType.IMAGE_GIF);</span><br><span class="line">        supportedMediaTypes.add(MediaType.IMAGE_JPEG);</span><br><span class="line">        supportedMediaTypes.add(MediaType.IMAGE_PNG);</span><br><span class="line">        supportedMediaTypes.add(MediaType.TEXT_EVENT_STREAM);</span><br><span class="line">        supportedMediaTypes.add(MediaType.TEXT_HTML);</span><br><span class="line">        supportedMediaTypes.add(MediaType.TEXT_MARKDOWN);</span><br><span class="line">        supportedMediaTypes.add(MediaType.TEXT_PLAIN);</span><br><span class="line">        supportedMediaTypes.add(MediaType.TEXT_XML);</span><br><span class="line">        fastConverter.setSupportedMediaTypes(supportedMediaTypes);</span><br><span class="line"></span><br><span class="line">        //创建配置类</span><br><span class="line">        FastJsonConfig fastJsonConfig = new FastJsonConfig();</span><br><span class="line">        //修改配置返回内容的过滤</span><br><span class="line">        //WriteNullListAsEmpty  ：List字段如果为null,输出为[],而非null</span><br><span class="line">        //WriteNullStringAsEmpty ： 字符类型字段如果为null,输出为&quot;&quot;,而非null</span><br><span class="line">        //DisableCircularReferenceDetect ：消除对同一对象循环引用的问题，默认为false（如果不配置有可能会进入死循环）</span><br><span class="line">        //WriteNullBooleanAsFalse：Boolean字段如果为null,输出为false,而非null</span><br><span class="line">        //WriteMapNullValue：是否输出值为null的字段,默认为false</span><br><span class="line">        fastJsonConfig.setSerializerFeatures(</span><br><span class="line">                SerializerFeature.DisableCircularReferenceDetect,</span><br><span class="line">                SerializerFeature.WriteMapNullValue</span><br><span class="line">        );</span><br><span class="line">        fastConverter.setFastJsonConfig(fastJsonConfig);</span><br><span class="line"></span><br><span class="line">        return fastConverter;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实际调用链"><a href="#实际调用链" class="headerlink" title="实际调用链"></a>实际调用链</h3><p>1.通过Feign调用接口</p>
+<p>2.默认进入org.springframework.http.converter.AbstractHttpMessageConverter 的 writeInternal 方法</p>
+<p>3.FastJson实现该方法，进行数据转换处理com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter 中的 write 方法</p>
+<ul>
+<li>参考资料</li>
+</ul>
+<p><a href="https://github.com/alibaba/fastjson/wiki/FastJson-%E6%96%87%E6%A1%A3%E9%93%BE%E6%8E%A5" target="_blank" rel="noopener">FastJson 文档链接</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Spring Boot </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Spring Boot </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Java小知识]]></title>
+      <url>/my-blog/2019/09/26/Java%E5%B0%8F%E7%9F%A5%E8%AF%86/</url>
+      <content type="html"><![CDATA[<html>
+<br>本文记录Java小知识,随时会更新工作中的知识点<br>
+</html>
+<a id="more"></a>
+
+<hr>
+<p>[TOC]</p>
+<h1 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h1><h2 id="Java-基础"><a href="#Java-基础" class="headerlink" title="Java 基础"></a>Java 基础</h2><h3 id="1-包装类型Integer-getInteger和Integer-valueOf区别"><a href="#1-包装类型Integer-getInteger和Integer-valueOf区别" class="headerlink" title="1. 包装类型Integer.getInteger和Integer.valueOf区别"></a>1. 包装类型Integer.getInteger和Integer.valueOf区别</h3><p>Integer类有两个看起来很类似的静态方法，一个是Integer.getInteger(String),另外一个是Integer.valueOf(String)。</p>
+<p>Integer.getInteger(String)的功能是根据指定的名称得到系统属性的整数值。第一个参数将被认为是系统属性的名称。系统属性可以通过 System.getProperty(java.lang.String)方法访问得到。属性值字符串将被解释成一个整数，并且以表示这个值的Integer对象形式返回。可能出现的数字格式的详细说明可以在 getProperty 的定义说明里找到。</p>
+<p>Integer.valueOf(String)的功能是获取给定的字符串所代表的整数。</p>
+<ul>
+<li>Integer.valueOf(String)方法假设String参数表达的是一个数值，会把该数值String转化成Integer。也就是说， Integer.valueOf(“123”) 得到一个Integer对象，其值是123。</li>
+<li>Integer.getInteger(String)方法假设String参数是一个系统属性数值的名称，会读取该系统属性，然后把系统属性的值转换成一个数字。也就是说， Integer.getInteger(“12345”) 应该是得到 null（假设没有名为12345的系统属性）。</li>
+</ul>
+<blockquote>
+<p>获取系统属性的方法：System.getProperties()</p>
+</blockquote>
+<blockquote>
+<p>添加到系统属性的方法：System.setProperties(p)</p>
+</blockquote>
+<p>虽然这两个方法的功能是不一样的，但是从方法的名称上并没有明显的区分开来，常常容易让人混淆。有很多Bug就是因为想使用valueOf的功能但是错误的使用了getInteger方法而导致的。</p>
+<p>这是在Java语言中会产生歧义的一个糟糕的例子。另外一个糟糕的例子是Boolean.getBoolean(“true”)。Boolean.getBoolean(String)的功能和Integer.getInteger(String)是类似的。通常我们都不会有一个名为“true”的系统属性，因此Boolean.getBoolean(“true”)通常会返回Boolean.FALSE。这里甚至比Integer.getInteger(String)还要糟糕，还不如返回一个null更容易让人发现错误。</p>
+<h2 id="Java-容器"><a href="#Java-容器" class="headerlink" title="Java 容器"></a>Java 容器</h2><h2 id="Java-并发"><a href="#Java-并发" class="headerlink" title="Java 并发"></a>Java 并发</h2><h2 id="Java-虚拟机"><a href="#Java-虚拟机" class="headerlink" title="Java 虚拟机"></a>Java 虚拟机</h2><h2 id="Java-I-O"><a href="#Java-I-O" class="headerlink" title="Java I/O"></a>Java I/O</h2>]]></content>
+      
+        <categories>
+            
+            <category> Java </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Java </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[SpringCloud中Feign配置类使用]]></title>
       <url>/my-blog/2019/08/21/SpringCloud%E4%B8%ADFeign%E9%85%8D%E7%BD%AE%E7%B1%BB%E4%BD%BF%E7%94%A8/</url>
       <content type="html"><![CDATA[<p>本文记录SpringCloud中Feign配置的两种方式</p>
@@ -42,6 +120,7 @@
 <p><a href="https://www.cnblogs.com/jinjiyese153/p/8664370.html" target="_blank" rel="noopener">SpringCloud系列十二：手动创建Feign</a></p>
 <p><a href="https://www.cnblogs.com/jinjiyese153/p/8664968.html" target="_blank" rel="noopener">SpringCloud系列十三：Feign对继承、压缩、日志的支持以及构造多参数请求</a></p>
 <p><a href="https://blog.csdn.net/taiyangdao/article/details/81359394" target="_blank" rel="noopener">Spring Cloud OpenFeign详解</a></p>
+<p><a href="https://www.cnblogs.com/liaojie970/p/9004219.html" target="_blank" rel="noopener">Spring Cloud系列之Feign的常见问题总结解</a></p>
 ]]></content>
       
         <categories>
@@ -122,6 +201,11 @@
 
 <p>深层次查询(方式三):</p>
 <p>此处可以参考博文:<a href="https://blog.csdn.net/congcong68/column/info/15995" target="_blank" rel="noopener">学习MongoDB 四:MongoDB查询</a></p>
+<blockquote>
+<p>补充在mongoDB中通过正则表达式实现like查询的方式</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Query query = new Query(Criteria.where(&quot;licenseNo&quot;).regex(&quot;^.*&quot; + licenseNo + &quot;.*$&quot;).and(&quot;storeId&quot;).is(storeId));</span><br><span class="line">        List&lt;QueryEnquiryListResp.QueryEnquiryListForm&gt; result = mongoTemplate.find(query, QueryEnquiryListResp.QueryEnquiryListForm.class, IUnderwriteCode.UNDERWRITE_MONGODB_ENQUIRY);</span><br></pre></td></tr></table></figure>
+
 <h3 id="实现代码-深层次更新"><a href="#实现代码-深层次更新" class="headerlink" title="实现代码:深层次更新"></a>实现代码:深层次更新</h3><p>深层次更新:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(rollbackFor = Exception.class)</span><br><span class="line">public void updateJudgeForMaintenanceClassificationList(String vehicleId, String groupCode, String baseItemCode) &#123;</span><br><span class="line">    /*</span><br><span class="line">     * 由于MongoDB不支持多层占位更新,且占位符必须位于第一个位置,所以需要通过代码逻辑确认除第一层外的数组下标</span><br><span class="line">     * 需要先查询原两层结构</span><br><span class="line">     */</span><br><span class="line">    MaintenanceClassificationRespResult tempResult = queryMaintenanceClassificationByMongoDB(MaintenanceClassificationReqModel</span><br><span class="line">            .builder().vehicleId(vehicleId).build());</span><br><span class="line">    if (!Objects.isNull(tempResult)) &#123;</span><br><span class="line">        List&lt;MaintenanceClassificationRespList&gt; list = tempResult.getList();</span><br><span class="line">        for (int i = 0; i &lt; list.size(); i++) &#123;</span><br><span class="line">            MaintenanceClassificationRespList data = list.get(i);</span><br><span class="line">            if (groupCode.equals(data.getGroupCode())) &#123;</span><br><span class="line">                // 保养项目分类一致,更新其下保养项目明细</span><br><span class="line">                if (!Objects.isNull(data.getPrograms()) &amp;&amp; data.getPrograms().getList().size() &gt; 0) &#123;</span><br><span class="line">                    for (int j = 0; i &lt; data.getPrograms().getList().size(); j++) &#123;</span><br><span class="line">                        MaintenanceProgramRespList dataDetail = data.getPrograms().getList().get(j);</span><br><span class="line">                        if (baseItemCode.equals(dataDetail.getBaseItemCode())) &#123;</span><br><span class="line">                            // 确认二层数据下标</span><br><span class="line">                            Query query = Query.query(Criteria.where(&quot;vehicleId&quot;).is(vehicleId).and(&quot;list.programs.list.baseItemCode&quot;).is(baseItemCode));</span><br><span class="line">                            Update update = new Update();</span><br><span class="line">                            // 此处i可以替换为$</span><br><span class="line">                            update.set(&quot;list.&quot; + i + &quot;.programs.list.&quot; + j + &quot;.judge&quot;, IEasyepcCode.JUDGE_1);</span><br><span class="line">                            UpdateResult updateResult = mongoTemplate.updateFirst(query, update, IEasyepcCode.EASYEPC_MONGODB_325021_325031);</span><br><span class="line">                            log.info(&quot;mongoDB更新文档结果:&#123;&#125;&quot;, updateResult.toString());</span><br><span class="line">                            break;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 

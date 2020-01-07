@@ -3,6 +3,51 @@
   
     
     <entry>
+      <title><![CDATA[Hexo博客框架下针对Mellow主题进行Gitment评论功能配置]]></title>
+      <url>/my-blog/2020/01/07/Hexo%E5%8D%9A%E5%AE%A2%E6%A1%86%E6%9E%B6%E4%B8%8B%E9%92%88%E5%AF%B9Mellow%E4%B8%BB%E9%A2%98%E8%BF%9B%E8%A1%8CGitment%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD%E9%85%8D%E7%BD%AE/</url>
+      <content type="html"><![CDATA[<p>本文记录Hexo博客框架下针对Mellow主题进行Gitment评论功能配置注意事项</p>
+<a id="more"></a>
+
+<hr>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>在个人博客上通过Gitment完成评论的搭建</p>
+<blockquote>
+<p>(Gitment实现评论的记录是通过GitHub仓库的Issue来完成)</p>
+</blockquote>
+<h3 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h3><p>1.注册 OAuth Application</p>
+<p>首先<a href="https://github.com/settings/applications/new" target="_blank" rel="noopener">点击这里</a>注册自己OAuth Application,此处有四个内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Application name：          权限应用名称(随意填写)</span><br><span class="line">Homepage URL:               授权主页的全路径(随意填写)</span><br><span class="line">Application description:    授权应用描述(随意填写)</span><br><span class="line">Authorization callback URL: 填写你的博客网址(例:https://user.github.io/blog/),如果有域名则填域名.</span><br></pre></td></tr></table></figure>
+
+<p>申请成功后可以看到oauth的client_id,client_secret</p>
+<p>2.安装Gitment</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save gitment</span><br></pre></td></tr></table></figure>
+
+<p>3.修改主题配置</p>
+<p>此处和个人博客使用的主题相关,本人使用Mellow主题,在主题配置中完成配置后,部署依然会错误,点击登录时报Object ProgressEvent,原因是主题服务器过期,且主题作者未更新,需要在主题文件夹下寻找gitment或者comment的js文件,修改服务器配置.具体改动如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 主题配置文件:\MyBlog\themes\mellow\_config.yml</span><br><span class="line"># gitment评论系统</span><br><span class="line">## https://github.com/imsun/gitment</span><br><span class="line">gitment:</span><br><span class="line">  enable: true #是否开启评论系统</span><br><span class="line">  lazy: true #是否开启初始化隐藏评论</span><br><span class="line">  owner: FishHunterFree #GitHub账号名称,就是登陆后的账号名称,Sign in as XXX 的 XXX</span><br><span class="line">  repo: gitment #留言仓库名称,就是需要在本人的GitHub下新建一个Repositories用于记录留言信息</span><br><span class="line">  oauth: </span><br><span class="line">    client_id: XXX #oauth的client_id</span><br><span class="line">    client_secret: XXX #oauth的client_secret</span><br><span class="line">  perPage: 10 #分页</span><br><span class="line">  </span><br><span class="line">// 在Mellow的文件下找了好久,最后从页面报错入手找到了异常代码位置</span><br><span class="line">// MyBlog\themes\mellow\source\js\plugins\gitmint.browser.js</span><br><span class="line">// 检索https://service.lujingtao.com/gitment,并将其替换成了网络上一个有效的地址https://auth.baixiaotu.cc</span><br></pre></td></tr></table></figure>
+
+<p>4.初始化评论插件</p>
+<p>点击登入后，(未开放评论)的地方会显示一个按钮让你初始化，点击按钮然后你就可以进行评论,在博客中引入评论,需要调整文件头</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: title #标题</span><br><span class="line">date: 2017-11-07 09:56:27 #创建时间</span><br><span class="line">tags: [tag1, tag2] #标签(同级)</span><br><span class="line">categories: #分类(分层)</span><br><span class="line">    - cat1</span><br><span class="line">    - cat2</span><br><span class="line">    - cat3</span><br><span class="line">reward: false #是否开启打赏功能</span><br><span class="line">comment: false #是否开启评论功能</span><br><span class="line">top: 1 #置顶层级(数字越大，优先级越高)</span><br><span class="line">repo: codefine | hexo-theme-mellow #用户名 | 仓库名</span><br><span class="line">src: //i.loli.net/2017/12/12/5a2fd18a74471.jpg #主页摘要缩略图(外链以及相对资源均可)</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://github.com/codefine/hexo-theme-mellow/wiki/6.-%E6%96%87%E4%BB%B6%E5%A4%B4%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE" target="_blank" rel="noopener">更多主题参考可见</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Hexo </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mellow </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[将Spring Boot 默认的Jackson框架转换为Fastjson]]></title>
       <url>/my-blog/2019/09/26/%E5%B0%86Spring-Boot-%E9%BB%98%E8%AE%A4%E7%9A%84Jackson%E6%A1%86%E6%9E%B6%E8%BD%AC%E6%8D%A2%E4%B8%BAFastjson/</url>
       <content type="html"><![CDATA[<p>本文记录将Spring Boot 默认的Jackson框架转换为Fastjson的实现方式及注意事项</p>

@@ -4117,11 +4117,8 @@ var Gitment = function () {
       }, options);
 
       this.state.user.isLoggingIn = true;
-      _utils.http.post('https://cors.wenjunjiang.win/?remoteUrl=https://github.com/login/oauth/access_token', {
-        code: code,
-        client_id: client_id,
-        client_secret: client_secret
-      }, '',{Accept:'application/json'}).then(function (data) {
+      var logging = !proxy_gateway ? _utils.http.post('https://github.com/login/oauth/access_token', { code: code, client_id: client_id, client_secret: client_secret }, '') : _utils.http.post('/login/oauth/access_token', 'code=' + code + '&client_id=' + client_id, proxy_gateway);
+      logging.then(function (data) {
         _this.accessToken = data.access_token;
         _this.update();
       }).catch(function (e) {

@@ -4117,7 +4117,7 @@ var Gitment = function () {
       }, options);
 
       this.state.user.isLoggingIn = true;
-      var logging = _utils.http.post('https://cors.wenjunjiang.win/?remoteUrl=https://github.com/login/oauth/access_token', {
+      _utils.http.post('https://cors.wenjunjiang.win/?remoteUrl=https://github.com/login/oauth/access_token', {
         code: code,
         client_id: client_id,
         client_secret: client_secret
@@ -4130,7 +4130,7 @@ var Gitment = function () {
       });
     } else {
       this.update();
-    }	
+    }
   }
 
   _createClass(Gitment, [{
